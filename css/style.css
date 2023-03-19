@@ -1,0 +1,158 @@
+*, a, *:after, *:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+header {
+  position: relative;
+  width: 100%;
+  height: 400px;
+}
+@media (min-width: 1000px) {
+  header {
+    height: 600px;
+  }
+}
+header video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  filter: brightness(50%);
+}
+header .header-text {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #fff;
+}
+@media (min-width: 1000px) {
+  header .header-text {
+    top: 100px;
+    left: 50px;
+  }
+}
+header .header-text .logo {
+  color: #fff;
+  font-size: 20px;
+}
+header .header-text .logo i {
+  padding-right: 10px;
+}
+header .header-text p {
+  margin: 60px 0 0 0;
+  line-height: 35px;
+  font-family: "Dancing Script", cursive;
+  font-size: 25px;
+}
+header .header-text h1 {
+  margin: -50px 0 30px 0;
+}
+header .header-text .btn-primary {
+  width: 150px;
+  color: #fff;
+  border: 2px solid #fff;
+  background-color: transparent;
+}
+header .header-text .btn-primary:hover {
+  background-color: #fff;
+  color: #000;
+}
+header .svg {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+main .platform-about {
+  text-align: center;
+}
+main .platform-about h2 {
+  font-size: 30px;
+}
+main .platform-about h3 {
+  font-size: 25px;
+  margin-top: 50px;
+}
+main .platform-about .computer-img {
+  margin-top: 20px;
+  width: 350px;
+}
+main .platform-about .about-text {
+  position: relative;
+}
+main .platform-about .about-text p {
+  position: absolute;
+}
+main .platform-about .about-text .blob {
+  width: 200px;
+  height: 200px;
+  background-image: linear-gradient(45deg, #AFD3DE 0%, #AFD3DE 100%);
+  animation: morpheus 10s linear infinite;
+}
+@keyframes morpheus {
+  0% {
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+  }
+  20% {
+    border-radius: 60% 40% 40% 60%/60% 25% 75% 40%;
+  }
+  40% {
+    border-radius: 70% 30% 65% 35%/80% 45% 55% 20%;
+  }
+  60% {
+    border-radius: 30% 70% 70% 30%/20% 30% 70% 80%;
+  }
+  80% {
+    border-radius: 40% 60% 40% 60%/70% 55% 45% 30%;
+  }
+  100% {
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+  }
+}
+main .platform-values {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+main .platform-values h2 {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+main .platform-values .cards .card {
+  height: 500px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  text-align: center;
+  letter-spacing: 2px;
+  word-spacing: 2px;
+  border-radius: 9px;
+}
+main .platform-values .cards .card img {
+  width: 140px;
+  height: 140px;
+  background-color: purple;
+  margin: 40px auto 20px auto;
+  border-radius: 50%;
+}
+main .platform-values .cards .card img:hover {
+  box-shadow: 7px 7px 5px grey;
+}
+main .platform-values .cards .card h3 {
+  font-size: 23px;
+  letter-spacing: 3px;
+  margin: 20px 0 20px 0;
+  font-family: "Coda Caption", sans-serif;
+  color: purple;
+}
+main .platform-values .cards .card p {
+  width: 90%;
+  margin: 0 auto 0 auto;
+  line-height: 30px;
+  letter-spacing: 2px;
+  word-spacing: 2px;
+}
+
+/*# sourceMappingURL=style.css.map */

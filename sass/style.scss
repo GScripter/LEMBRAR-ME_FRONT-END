@@ -1,0 +1,155 @@
+@import "vars";
+@import "responsive";
+
+*, a, *:after, *:before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+header{
+    position: relative;
+    width: 100%;
+    height: 400px;
+    @include desktop{
+        height: 600px;
+    }
+    video{
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        filter: brightness(50%);
+    }
+    .header-text{
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        color: $primary-color;
+        @include desktop{
+            top: 100px;
+            left: 50px;
+        }
+        .logo{
+            color: $primary-color;
+            font-size: 20px;
+            i{
+                padding-right: 10px;
+            }
+        }
+        p{
+            margin: 60px 0 0 0;
+            line-height: 35px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 25px;
+        }
+        h1{
+            margin: -50px 0 30px 0;
+        }
+        .btn-primary{
+            width: 150px;
+            color: $primary-color;
+            border: 2px solid $primary-color;
+            background-color: transparent;
+            &:hover{
+                background-color: $primary-color;
+                color: #000;
+            }
+        }
+    }
+    .svg{
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+main{
+    // ============================
+    //        Platform About
+    // ============================
+    .platform-about{
+        text-align: center;
+        h2{
+            font-size: 30px;
+        }
+        h3{
+            font-size: 25px;
+            margin-top: 50px;
+        }
+        .computer-img{
+            margin-top: 20px;
+            width: 350px;
+        }
+        .about-text{
+            position: relative;
+            p{
+                position: absolute;
+            }
+            .blob {
+                width: 200px;
+                height: 200px;
+                // background-image: linear-gradient(45deg, #3023AE 0%, #FF0099 100%);
+                // box-shadow: 0 0 50px 0 rgba(#FF0099, 0.7), 0 0 50px 0 rgba(#3023AE, 0.7);
+                background-image: linear-gradient(45deg, #AFD3DE 0%, #AFD3DE 100%);
+                animation: morpheus 10s linear infinite;
+            }
+            @keyframes morpheus{
+                0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+                20% { border-radius: 60% 40% 40% 60% / 60% 25% 75% 40%; }
+                40% { border-radius: 70% 30% 65% 35% / 80% 45% 55% 20%; }
+                60% { border-radius: 30% 70% 70% 30% / 20% 30% 70% 80%; }
+                80% { border-radius: 40% 60% 40% 60% / 70% 55% 45% 30%; }
+                100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            }
+        }
+    }
+    // ============================
+    //        Platform Values
+    // ============================
+    .platform-values{
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        h2{
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+        .cards{
+            .card{
+                height: 500px;
+                background-color: $primary-color;
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                text-align: center;
+                letter-spacing: 2px;
+                word-spacing: 2px;
+                border-radius: 9px;
+                img{
+                    width: 140px;
+                    height: 140px;
+                    background-color: $purple;
+                    margin: 40px auto 20px auto;
+                    border-radius: 50%;
+                    &:hover{
+                        box-shadow: 7px 7px 5px grey; 
+                    }
+                }
+                h3{
+                    font-size: 23px;
+                    letter-spacing: 3px;
+                    margin: 20px 0 20px 0;
+                    font-family: 'Coda Caption', sans-serif;
+                    color: $purple;
+                }
+                p{
+                    width: 90%;
+                    margin: 0 auto 0 auto;
+                    line-height: 30px;
+                    letter-spacing: 2px;
+                    word-spacing: 2px;
+                }
+            }
+        }
+    }
+}
