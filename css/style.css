@@ -66,14 +66,21 @@ header .svg {
 }
 
 main .platform-about {
+  max-width: 1050px;
   text-align: center;
+  margin: 50px auto 100px auto;
+}
+@media (min-width: 500px) and (max-width: 991px) {
+  main .platform-about {
+    margin: 50px 0;
+  }
 }
 main .platform-about h2 {
   font-size: 30px;
 }
 main .platform-about h3 {
   font-size: 25px;
-  margin-top: 50px;
+  margin: 40px 0 40px 0;
 }
 main .platform-about .computer-img {
   margin-top: 20px;
@@ -84,12 +91,18 @@ main .platform-about .about-text {
 }
 main .platform-about .about-text p {
   position: absolute;
+  font-size: 20px;
 }
 main .platform-about .about-text .blob {
-  width: 200px;
-  height: 200px;
+  width: 350px;
+  height: 400px;
   background-image: linear-gradient(45deg, #AFD3DE 0%, #AFD3DE 100%);
   animation: morpheus 10s linear infinite;
+}
+@media (min-width: 1000px) {
+  main .platform-about .about-text .blob {
+    height: 350px;
+  }
 }
 @keyframes morpheus {
   0% {
@@ -122,7 +135,9 @@ main .platform-values h2 {
   margin-bottom: 30px;
 }
 main .platform-values .cards .card {
-  height: 500px;
+  max-width: 350px;
+  margin: 0 auto;
+  height: 550px;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-align: center;
@@ -131,21 +146,20 @@ main .platform-values .cards .card {
   border-radius: 9px;
 }
 main .platform-values .cards .card img {
-  width: 140px;
-  height: 140px;
-  background-color: purple;
-  margin: 40px auto 20px auto;
+  width: 150px;
+  height: 150px;
+  margin: 40px auto 40px auto;
   border-radius: 50%;
-}
-main .platform-values .cards .card img:hover {
   box-shadow: 7px 7px 5px grey;
 }
 main .platform-values .cards .card h3 {
-  font-size: 23px;
+  margin-top: 20px;
   letter-spacing: 3px;
-  margin: 20px 0 20px 0;
   font-family: "Coda Caption", sans-serif;
-  color: purple;
+}
+main .platform-values .cards .card h3 font {
+  size: 23px;
+  weight: bold;
 }
 main .platform-values .cards .card p {
   width: 90%;
@@ -153,6 +167,63 @@ main .platform-values .cards .card p {
   line-height: 30px;
   letter-spacing: 2px;
   word-spacing: 2px;
+}
+main .newsletter {
+  width: 100%;
+  background-color: #AFD3DE;
+  text-align: center;
+  margin: 80px 0;
+  padding: 50px 0;
+}
+main .newsletter h2 {
+  margin-bottom: 30px;
+  font-size: 30px;
+}
+main .newsletter form {
+  width: 100%;
+}
+main .newsletter form input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #22C7EB;
+}
+main .newsletter form input[type=submit] {
+  background-color: #22C7EB;
+  color: #fff;
+}
+main .newsletter form input[type=email] {
+  width: 65%;
+  max-width: 500px;
+}
+main .developer {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+main .developer h2 {
+  font-size: 30px;
+}
+main .developer .developer-img {
+  position: relative;
+  margin: 30px 0;
+}
+main .developer .developer-img img {
+  width: 250px;
+  border-radius: 50%;
+  position: absolute;
+}
+main .developer .developer-img .blob {
+  width: 270px;
+  height: 270px;
+  background-image: linear-gradient(45deg, #AFD3DE 0%, #AFD3DE 100%);
+  animation: morpheus 10s linear infinite;
+}
+main .developer p {
+  font-size: 20px;
+  text-align: center;
+}
+
+footer {
+  margin-top: 50px;
 }
 
 /*# sourceMappingURL=style.css.map */
