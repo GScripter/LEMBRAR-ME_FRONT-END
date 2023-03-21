@@ -24,7 +24,6 @@ header video {
 header .header-text {
   position: absolute;
   top: 20px;
-  left: 20px;
   color: #fff;
 }
 @media (min-width: 1000px) {
@@ -62,67 +61,27 @@ header .header-text .btn-primary:hover {
 header .svg {
   width: 100%;
   position: absolute;
-  bottom: 0;
+  bottom: -10px;
 }
 
-main .platform-about {
+main .about-platform {
   max-width: 1050px;
   text-align: center;
-  margin: 50px auto 100px auto;
+  margin: 50px auto;
 }
-@media (min-width: 500px) and (max-width: 991px) {
-  main .platform-about {
-    margin: 50px 0;
-  }
-}
-main .platform-about h2 {
+main .about-platform h2 {
   font-size: 30px;
 }
-main .platform-about h3 {
+main .about-platform h3 {
   font-size: 25px;
   margin: 40px 0 40px 0;
 }
-main .platform-about .computer-img {
+main .about-platform .computer-img {
   margin-top: 20px;
   width: 350px;
 }
-main .platform-about .about-text {
-  position: relative;
-}
-main .platform-about .about-text p {
-  position: absolute;
+main .about-platform p {
   font-size: 20px;
-}
-main .platform-about .about-text .blob {
-  width: 350px;
-  height: 400px;
-  background-image: linear-gradient(45deg, #AFD3DE 0%, #AFD3DE 100%);
-  animation: morpheus 10s linear infinite;
-}
-@media (min-width: 1000px) {
-  main .platform-about .about-text .blob {
-    height: 350px;
-  }
-}
-@keyframes morpheus {
-  0% {
-    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
-  }
-  20% {
-    border-radius: 60% 40% 40% 60%/60% 25% 75% 40%;
-  }
-  40% {
-    border-radius: 70% 30% 65% 35%/80% 45% 55% 20%;
-  }
-  60% {
-    border-radius: 30% 70% 70% 30%/20% 30% 70% 80%;
-  }
-  80% {
-    border-radius: 40% 60% 40% 60%/70% 55% 45% 30%;
-  }
-  100% {
-    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
-  }
 }
 main .platform-values {
   text-align: center;
@@ -170,9 +129,9 @@ main .platform-values .cards .card p {
 }
 main .newsletter {
   width: 100%;
-  background-color: #AFD3DE;
+  background-color: rgba(175, 211, 222, 0.49);
   text-align: center;
-  margin: 80px 0;
+  margin: 70px 0 50px 0;
   padding: 50px 0;
 }
 main .newsletter h2 {
@@ -214,8 +173,28 @@ main .developer .developer-img img {
 main .developer .developer-img .blob {
   width: 270px;
   height: 270px;
-  background-image: linear-gradient(45deg, #AFD3DE 0%, #AFD3DE 100%);
+  background-image: linear-gradient(45deg, rgba(175, 211, 222, 0.49) 0%, rgba(175, 211, 222, 0.49) 100%);
   animation: morpheus 10s linear infinite;
+}
+@keyframes morpheus {
+  0% {
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+  }
+  20% {
+    border-radius: 60% 40% 40% 60%/60% 25% 75% 40%;
+  }
+  40% {
+    border-radius: 70% 30% 65% 35%/80% 45% 55% 20%;
+  }
+  60% {
+    border-radius: 30% 70% 70% 30%/20% 30% 70% 80%;
+  }
+  80% {
+    border-radius: 40% 60% 40% 60%/70% 55% 45% 30%;
+  }
+  100% {
+    border-radius: 30% 70% 70% 30%/30% 30% 70% 70%;
+  }
 }
 main .developer p {
   font-size: 20px;
@@ -223,7 +202,56 @@ main .developer p {
 }
 
 footer {
+  margin: 50px 0 -30px 0;
+  padding: 50px 0 0 0;
+  background-color: rgba(175, 211, 222, 0.49);
+  text-align: center;
+}
+footer h2 {
+  margin-bottom: 30px;
+}
+footer .contact {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+footer .contact .icon {
+  width: 70px;
+  height: 70px;
+  border: 1px solid grey;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+}
+footer .contact .icon i {
+  font-size: 40px;
+}
+footer .contact p span {
+  font-weight: bold;
+}
+footer .contact-form {
   margin-top: 50px;
+}
+footer .contact-form .form-control {
+  background-color: transparent;
+  margin-bottom: 10px;
+  border-width: 3px;
+}
+footer .contact-form h3 {
+  margin-bottom: 50px;
+}
+footer .contact-form form {
+  margin-top: 30px;
+}
+footer hr {
+  width: 90%;
+  max-width: 700px;
+  margin: 30px auto;
+}
+footer .copyright {
+  padding: 30px 0;
+  opacity: 0.5;
 }
 
 /*# sourceMappingURL=style.css.map */
