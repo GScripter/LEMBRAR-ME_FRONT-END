@@ -62,8 +62,25 @@ header .svg {
   width: 100%;
   position: absolute;
   bottom: -10px;
+  color: #fff;
 }
 
+main .btn-theme {
+  z-index: 10;
+  cursor: pointer;
+  background-color: rgba(175, 211, 222, 0.49);
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  font-size: 50px;
+}
 main .about-platform {
   max-width: 1050px;
   text-align: center;
@@ -97,7 +114,6 @@ main .platform-values .cards .card {
   max-width: 350px;
   margin: 0 auto;
   height: 550px;
-  background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-align: center;
   letter-spacing: 2px;
@@ -252,6 +268,32 @@ footer hr {
 footer .copyright {
   padding: 30px 0;
   opacity: 0.5;
+}
+
+.privacy-policies {
+  text-align: center;
+  margin-top: 50px;
+}
+.privacy-policies p {
+  font-size: 20px;
+  margin-top: 30px;
+}
+
+.dark-mode {
+  background-color: #212124;
+  color: #fff;
+}
+.dark-mode svg {
+  color: #212124;
+}
+.dark-mode .cards .card {
+  background-color: rgba(175, 211, 222, 0.49);
+}
+.dark-mode main .btn-theme {
+  color: #fff;
+}
+.dark-mode footer input[type=submit], .dark-mode footer .form-control::placeholder {
+  color: #fff;
 }
 
 /*# sourceMappingURL=style.css.map */
