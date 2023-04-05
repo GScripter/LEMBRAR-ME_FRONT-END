@@ -19,7 +19,7 @@
         <link rel="shortcut icon" href="https://img.icons8.com/clouds/150/000000/folder-invoices.png" type="image/x-icon">
         <title>LEMBRAR-ME</title>
     </head>
-    <body class="">
+    <body id="home" class="">
         <header class="beginning-header">
             <video autoplay loop="true" muted>
                 <source src="imgs/macbook-3576.mp4" type="video/mp4"></source>
@@ -48,7 +48,7 @@
             <!-- Dark Mode  -->
             <div id="btn-theme" class="btn-theme"><i class="bi bi-lightbulb"></i></div>
 
-            <section class="container about-platform">
+            <section class="container about-platform" id="about-platform">
                 <h2>Sobre a Plataforma</h2>
                 <div class="row justify-content-center justify-content-lg-between">
                     <img src="imgs/computer.jpg" alt="Computador Salvando Arquivos" class="computer-img">
@@ -59,7 +59,7 @@
                 </div>
             </section>
 
-            <section class="container platform-values">
+            <section class="container platform-values" id="platform-values">
                 <h2>Valores</h2>
                 <div class="cards row justify-content-center g-3">
                     <div class="col-11 col-md-6 col-lg-4">
@@ -91,15 +91,15 @@
             <section class="newsletter">
                 <div class="container">
                     <h2>Se inscreva pra fica por dentro das novidades.</h2>
-                    <form action="">
-                        <input type="email" placeholder=" E-mail">
+                    <form id="subscribe" action="">
+                        <input type="email" placeholder=" E-mail" required="required">
                         <input type="submit" value="inscrever">
                     </form>
                 </div>
             </section>
 
             <section class="container">
-                <div class="d-flex flex-column justify-content-md-between flex-md-row align-items-center developer">
+                <div class="d-flex flex-column justify-content-md-between flex-md-row align-items-center developer" id="developer">
                     <div class="col-md-4 col-lg-4 developer-img">
                         <img src="" alt="Gabriel Santana - Desenvolvedor">
                         <div class="blob"></div>
@@ -134,7 +134,7 @@
                     <div class="text-center col-12"><h3>Ou nos deixe uma mensagem:</h3></div>
                     <div class="col-12 col-md-6 col-lg-4"><img class="img-fluid" src="imgs/LayingDoodle.png" alt="Ilustração Mulher Deitada"></div>
                     <div class="col-12 col-md-6">
-                        <form action="">
+                        <form id="contact-form" action="">
                             <input class="form-control" type="name" placeholder="Name" required="required">
                             <input class="form-control" type="email" placeholder="E-mail" required="required">
                             <textarea class="form-control" id="" name="" cols="30" rows="10" placeholder=" Envie sua mensagem "></textarea>

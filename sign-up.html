@@ -19,8 +19,8 @@
         <link rel="shortcut icon" href="https://img.icons8.com/clouds/150/000000/folder-invoices.png" type="image/x-icon">
         <title>LEMBRAR-ME - Cadastrar</title>
     </head>
-    <body class="">
-        <main class="login">
+    <body class="" id="sign-up">
+        <main class="sign-up">
             <!-- Cookies Alert -->
             <div class="cookies-alert">
                 <h2>Consentimento de Cookies</h2>
@@ -31,23 +31,31 @@
             <!-- Dark Mode  -->
             <div id="btn-theme" class="btn-theme"><i class="bi bi-lightbulb"></i></div>
             <div class="container">
-                <div class="m-auto row login-contents">
-                    <div class="login-content col-12 col-md-6 col-lg-5">
+                <div class="m-auto row sign-up-contents">
+                    <div class="sign-up-content col-12 col-md-6 col-lg-5">
                         <img src="imgs/computer.jpg" alt="Computador Salvando Arquivos">
                     </div>
-                    <div class="login-content col-12 col-md-6 col-lg-7">
+                    <div class="sign-up-content col-12 col-md-6 col-lg-7">
                         <h1>Cadastrar</h1>
-                        <form action="" id="register-form">
-                            <div class="alert alert-danger">Usuário ou senha incorreto</div>
+                        <div class="login-social">
+                            <div class="google"><i class="bi bi-google"></i></div>
+                            <div class="linkedin"><i class="bi bi-linkedin"></i></div>
+                        </div>
+                        <form action="" id="sign-up-form">
+                            <div class="alert alert-danger"></div>
                             <input type="text" placeholder="Nome" required="required" class="form-control">
                             <input type="email" placeholder="E-mail" required="required" class="form-control">
-                            <input type="password" placeholder="Senha" required="required" class="form-control">
-                            <input type="password" placeholder="Repetir a Senha" required="required" class="form-control">
+                            <input type="password" placeholder="Senha" required="required" class="password form-control">
+                            <input type="password" placeholder="Repetir a Senha" required="required" class="password form-control">
+                            <ul id="password-rules" class="password-rules list-unstyled">
+                                <li>Letras maiúsculas ABC</li>
+                                <li>Números entre 0 e 9</li>
+                                <li>Número de caracteres Minimo 8</li>
+                                <li>Caracteres especiais @$%&!</li>
+                            </ul>
                             <input type="submit" value="Enviar" required="required" class="form-control btn btn-success">
+                            <a href="login.html">Entrar <i class="bi bi-arrow-right"></i></a>
                         </form>
-                        <ul>
-                            <li><a href="login.html">Entrar <i class="bi bi-arrow-right"></i></a></li>
-                        </ul>
                     </div>
                 </div>
             </div>

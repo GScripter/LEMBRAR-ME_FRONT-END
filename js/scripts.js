@@ -1,14 +1,66 @@
 import Annotation from "./annotation.js"
 
-/////////////////////////////////
-//  Privacy Policies 
-/////////////////////////////////
-if(document.getElementById("return")){
-    document.getElementById("return").setAttribute("href", document.referrer)
+// Endpoints
+const SITE_CONTENT_ENDPOINT = "http://127.0.0.1:8000/"
+const TOKEN_OBTAIN_ENDPOINT = "http://127.0.0.1:8000/api/token/"
+const TOKEN_REFRESH_ENDPOINT = "http://127.0.0.1:8000/api/token/refresh/"
+const SIGN_UP_ENDPOINT = "http://127.0.0.1:8000/api/register/"
+const ACCOUNT_DELETE_ENDPOINT = "http://127.0.0.1:8000/api/delete/account/"
+const UPDATE_PASSWORD_ENDPOINT = "http://127.0.0.1:8000/update/password/"
+const SUBSCRIBE_ENDPOINT = "http://127.0.0.1:8000/subscribe/"
+const CONTACT_ENDPOINT = "http://127.0.0.1:8000/contact/"
+
+
+function validatePasswordAndShowRules(option, password){
+    if(option == "rules"){
+        const PASSWORD_RULES = document.getElementById("password-rules")
+        PASSWORD_RULES.style.display = "block"
+        if(password.search(/[A-Z]/) != -1){
+           PASSWORD_RULES.children[0].style.color = "#6AB83F"
+        }else{
+           PASSWORD_RULES.children[0].style.color = "#D96767"
+        }
+
+        if(password.search(/[0-9]/) != -1){
+           PASSWORD_RULES.children[1].style.color = "#6AB83F"
+        }else{
+           PASSWORD_RULES.children[1].style.color = "#D96767"
+        }
+
+        if(password.length >= 8){
+           PASSWORD_RULES.children[2].style.color = "#6AB83F"
+        }else{
+           PASSWORD_RULES.children[2].style.color = "#D96767"
+        }
+
+        if(password.search(/[@#!$%&*()_+=.;,|/]/) != -1){
+           PASSWORD_RULES.children[3].style.color = "#6AB83F"
+        }else{
+           PASSWORD_RULES.children[3].style.color = "#D96767"
+        }
+    }else if(option == "validate"){
+        const ALERT = document.getElementsByClassName("alert-danger")[0]
+        const PASSWORD = document.getElementsByClassName("password")
+        if(PASSWORD[0].value == PASSWORD[1].value){
+            if(PASSWORD[0].value.search(/[A-Z]/) != -1 &&
+                PASSWORD[0].value.search(/[0-9]/) != -1 &&
+                PASSWORD[0].value.search(/[@$%&*()+=.;,|]/) != -1 &&
+                PASSWORD[0].value.length >= 8){
+                return true
+            }else{
+                ALERT.style = "display: block;"
+                ALERT.innerHTML = "Crie uma senha forte o suficiente."
+                return false
+            }
+        }else{
+            ALERT.style = "display: block;"
+            ALERT.innerHTML = "Suas senhas precisam ser iguais."
+            return false
+        }
+    }
 }
-/////////////////////////////////
-//   Cookies Alert
-/////////////////////////////////
+
+// Cookies Alert
 if(!(localStorage.cookies)){
     const cookies_alert = [...document.getElementsByClassName("cookies-alert")]
     const btn_cookies = [...document.getElementsByClassName("btn-cookies")]
@@ -18,9 +70,8 @@ if(!(localStorage.cookies)){
         cookies_alert[0].style = "display: none";
     })
 }
-/////////////////////////////////
-//   Theme
-/////////////////////////////////
+
+// Theme
 const body = document.body
 const btn_theme = document.getElementById("btn-theme")
 btn_theme.addEventListener("click", (evt) => {
@@ -36,39 +87,55 @@ if(localStorage.theme){
         body.classList.add("dark-mode")
     }
 }
-/////////////////////////////////
-//   API - Site Text
-/////////////////////////////////
-fetch("http://127.0.0.1:8000/").then(response => response.json()).then(json => {
-    // About Platform
-    const platform_about = [...document.getElementsByClassName("about-platform")]
-    if(platform_about.length > 0){
-        platform_about[0].children[1].children[1].children[1].innerHTML = json[0].about_platform
-    }
-    // Values Cards
-    const platform_values = [...document.getElementsByClassName("card")]
-    if(platform_values.length > 0){
-        platform_values[0].children[2].innerHTML = json[0].values_card_0
-        platform_values[1].children[2].innerHTML = json[0].values_card_1
-        platform_values[2].children[2].innerHTML = json[0].values_card_2
-    }
-    // Developer
-    const developer = [...document.getElementsByClassName("developer")]
-    if(developer.length > 0){
-        developer[0].children[1].children[1].innerHTML = json[0].about_developer
-        developer[0].children[0].children[0].setAttribute("src", json[0].developer_img)
-    }
-    // Privacy Policies
-    const privacy_policies = [...document.getElementsByClassName("privacy-policies")]
-    if(privacy_policies.length > 0){
-        privacy_policies[0].children[1].innerHTML = json[0].privacy_policies
-    }
-})
-/////////////////////////////////
-//   API - Update Token
-/////////////////////////////////
-if(!(document.getElementById("login-form")) && !(document.getElementById("register-form"))){
-    fetch("http://127.0.0.1:8000/api/token/refresh/", {
+
+// API - Site Content
+if(document.getElementById("home")){
+    fetch(SITE_CONTENT_ENDPOINT).then(response => response.json()).then(json => {
+        const ABOUT_PLATFORM = document.getElementById("about-platform")
+        ABOUT_PLATFORM.children[1].children[1].children[1].innerHTML = json[0].about_platform
+
+        const PLATFORM_VALUES = document.getElementById("platform-values")
+        PLATFORM_VALUES.children[1].children[0].children[0].children[2].innerHTML = json[0].values_card_0
+        PLATFORM_VALUES.children[1].children[1].children[0].children[2].innerHTML = json[0].values_card_1
+        PLATFORM_VALUES.children[1].children[2].children[0].children[2].innerHTML = json[0].values_card_2
+
+        const ABOUT_DEVELOPER = document.getElementById("developer")
+        ABOUT_DEVELOPER.children[1].children[1].innerHTML = json[0].about_developer
+        ABOUT_DEVELOPER.children[0].children[0].setAttribute("src", json[0].developer_img)
+    })
+    // Subscribe
+    const BTN_SUBSCRIBE = document.getElementById("subscribe")
+    BTN_SUBSCRIBE.addEventListener("submit", (evt) => {
+        evt.preventDefault()
+        fetch(SUBSCRIBE_ENDPOINT, {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: evt.target.elements[0].value
+            })
+        }).then(response => {
+            if(response.ok == true){
+                window.location = "subscribe-success.html"
+            }else{
+                alert("Algo deu errado, entre em contato no formulário de contato abaixo e informe o erro.")
+            }
+        })
+    })
+}else if(document.getElementById("privacy-policies")){
+    fetch(SITE_CONTENT_ENDPOINT).then(response => response.json()).then(json => {
+        const PRIVACY_POLICIES = document.getElementById("privacy-policies")
+        PRIVACY_POLICIES.children[1].innerHTML = json[0].privacy_policies
+    })
+}
+
+// API - Update Token
+if(!(document.getElementById("home")) && !(document.getElementById("login")) &&
+    !(document.getElementById("privacy-policies")) && !(document.getElementById("sign-up")) &&
+    !(document.getElementById("success"))
+){
+    fetch(TOKEN_REFRESH_ENDPOINT, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -77,68 +144,136 @@ if(!(document.getElementById("login-form")) && !(document.getElementById("regist
             refresh: localStorage.refresh,
         })
     }).then(response => response.json()).then(json => {
-        if(json.code && json.code == "token_not_valid"){
+        if(json.access){
+            localStorage.access = json.access
+            localStorage.refresh = json.refresh
+        }else{
             localStorage.removeItem("access")
             localStorage.removeItem("refresh")
             window.location = "login.html"
-        }else{
-            localStorage.access = json.access
-            localStorage.refresh = json.refresh
         }
     })
 }
-/////////////////////////////////
-//   API - Login
-/////////////////////////////////
-const login_form = document.getElementById("login-form")
-const alert_danger = document.getElementsByClassName("alert-danger")
-if(login_form){
+
+// API - Obtain Token
+function login(username, password){
+    const ALERT = document.getElementsByClassName("alert-danger")[0]
+    fetch(TOKEN_OBTAIN_ENDPOINT, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password,
+        }),
+    }).then(response => {
+        if(response.ok == true){
+            response.json().then(json => {
+                localStorage.access = json.access
+                localStorage.refresh = json.refresh
+                window.location = "annotations.html"
+            })
+        }else{
+            ALERT.style = "display: block;"
+            ALERT.innerHTML = "Usuário ou senha incorreta."
+        }
+    })
+}
+if(document.getElementById("login-form")){
+    const login_form = document.getElementById("login-form")
     login_form.addEventListener("submit", (evt) => {
         evt.preventDefault()
-        fetch("http://127.0.0.1:8000/api/token/", {
-            method: "POST",
+        login(evt.target.elements[0].value, evt.target.elements[1].value)
+    })
+}
+
+// API - SIGN UP
+if(document.getElementById("sign-up-form")){
+    [...document.getElementsByClassName("password")].map(el => {
+        el.addEventListener("input", (evt) => validatePassword("rules", evt.target.value))
+    })
+    document.getElementById("sign-up-form").addEventListener("submit", (evt) => {
+        evt.preventDefault()
+        if(validatePasswordAndShowRules("validate") == true){
+            fetch(SIGN_UP_ENDPOINT, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: evt.target.elements[0].value,
+                    email: evt.target.elements[1].value,
+                    password: evt.target.elements[2].value,
+                }),
+            }).then(response => {
+                if(response.ok == true){
+                    response.json().then(json => {
+                        localStorage.user = json.id
+                        login(evt.target.elements[0].value, evt.target.elements[2].value)
+                    })
+                }else{
+                    response.json().then(json => {
+                        if(json.password){
+                            ALERT.style = "display: block;"
+                            ALERT.innerHTML = "Crie uma senha forte o suficiente."
+                        }else if(json.username){
+                            ALERT.style = "display: block;"
+                            ALERT.innerHTML = "Nome de usuário já existe no sistema."
+                        }
+                    })
+                }
+            })
+        }
+    })
+}
+
+// API - Logout
+if(document.getElementById("logout")){
+    const logout = document.getElementById("btn-logout")
+    logout.addEventListener("click", () => {
+        localStorage.removeItem("access")
+        localStorage.removeItem("refresh")
+        window.location = "login.html"
+    })
+}
+
+// API - Delete Account
+if(document.getElementById("btn-delete-account")){
+    const delete_account = document.getElementById("btn-delete-account")
+    delete_account.addEventListener("click", () => {
+        fetch(`${ACCOUNT_DELETE_ENDPOINT}${localStorage.user}/`, {
+            method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: evt.target.elements[0].value,
-                password: evt.target.elements[1].value,
-            }),
-        }).then(response => response.json()).then(json => {
-            localStorage.access = json.access
-            localStorage.refresh = json.refresh
-            if(json.access){
-                window.location = "annotations.html"
+                'Authorization': 'Bearer '+localStorage.access
+            }
+        }).then(response => {
+            if(response.ok == true){
+                localStorage.removeItem("access")
+                localStorage.removeItem("refresh")
+                window.location = "index.html"
             }else{
-                alert_danger[0].style = "display: block;"
+                alert("Algo deu errado ao deletar a conta! Entre em contato e informe o problema.")
             }
         })
     })
 }
-/////////////////////////////////
-//   API - Register
-/////////////////////////////////
-const register_form = document.getElementById("register-form")
-if(register_form){
-    register_form.addEventListener("submit", (evt) => {
+
+// API - Update Password
+if(document.getElementById("update-password")){
+    [...document.getElementsByClassName("password")].map(el => {
+        el.addEventListener("input", (evt) => validatePassword("rules", evt.target.value))
+    })
+    document.getElementById("update-password").addEventListener("submit", (evt) => {
         evt.preventDefault()
-        fetch("http://127.0.0.1:8000/api/register/", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: evt.target.elements[0].value,
-                email: evt.target.elements[1].value,
-                password: evt.target.elements[2].value,
-            }),
-        }).then(response => response.json()).then(json => console.log(json))
+        if(validatePasswordAndShowRules("validate") == true){
+        }
     })
 }
-/////////////////////////////////
+
 // API - Get and Show Annotations
-/////////////////////////////////
-if(document.getElementById("annotations")){
+if(document.getElementById("annotations") && !(document.getElementById("results"))){
     fetch("http://127.0.0.1:8000/annotations/", {
         headers: {
             'Content-Type': 'application/json',
@@ -156,9 +291,7 @@ if(document.getElementById("annotations")){
     })
 }
 
-/////////////////////////////////
 // API - Create Annotation
-/////////////////////////////////
 if(document.getElementById("create-annotation")){
     const create_annotation = document.getElementById("create-annotation")
     create_annotation.addEventListener("submit", (evt) => {
@@ -166,9 +299,8 @@ if(document.getElementById("create-annotation")){
         new Annotation(evt.target.elements[0].value, evt.target.elements[1].value, evt.target.elements[2].value).create_annotation()
     })
 }
-/////////////////////////////////
+
 // API - Delete Annotation
-/////////////////////////////////
 if(document.getElementById("btn-delete-annotation")){
     const delete_annotation = document.getElementById("btn-delete-annotation")
     delete_annotation.addEventListener("click", () => {
@@ -176,9 +308,8 @@ if(document.getElementById("btn-delete-annotation")){
         new Annotation().delete_annotation(urlParams.get("id"))
     })
 }
-/////////////////////////////////
+
 // API - Update Annotation
-/////////////////////////////////
 if(document.getElementById("update-annotation")){
     const update_annotation = document.getElementById("update-annotation")
     const urlParams = new URLSearchParams(window.location.search)
@@ -190,9 +321,8 @@ if(document.getElementById("update-annotation")){
         new Annotation(evt.target.elements[0].value, evt.target.elements[1].value, evt.target.elements[2].value).update_annotation(urlParams.get("id"))
     })
 }
-/////////////////////////////////
+
 // API - Get Annotation Detail
-/////////////////////////////////
 if(document.getElementById("annotation-detail")){
     const urlParams = new URLSearchParams(window.location.search)
     if(urlParams.get("id")){
@@ -202,6 +332,53 @@ if(document.getElementById("annotation-detail")){
         document.getElementsByClassName("no-annotation")[0].style.display = "block"
     }
 }
-/////////////////////////////////
-// 
-/////////////////////////////////
+
+//  API - Search Annotations
+if(document.getElementById("search")){
+    const search = document.getElementById("search")
+    search.addEventListener("submit", (evt) => {
+        evt.preventDefault()
+        const query = evt.target.elements[0].value
+        window.location = `results.html?q=${query}`
+    })
+}
+if(document.getElementById("results")){
+    const urlParams = new URLSearchParams(window.location.search)
+    if(urlParams.get("q")){
+        new Annotation().search(urlParams.get("q"))
+    }else{
+        document.getElementById("annotations").remove()
+        document.getElementById("no-annotations").style.display = "block"
+    }
+}
+
+// Return to previous page
+if(document.getElementById("return")){
+    document.getElementById("return").setAttribute("href", document.referrer)
+}
+
+// Contact Form
+if(document.getElementById("contact-form")){
+    document.getElementById("contact-form").addEventListener("submit", (evt) => {
+        evt.preventDefault()
+        fetch(CONTACT_ENDPOINT, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: evt.target.elements[0].value,
+                email: evt.target.elements[1].value,
+                message: evt.target.elements[2].value,
+            })
+        }).then(response => {
+            if(response.ok == true){
+                window.location = "success.html"
+            }else{
+                alert("Algo deu errado no envio. Certifique-se que todos os campos foram colocados corretamente.")
+            }
+        })
+    })
+}
+
+

@@ -17,9 +17,9 @@
         <link rel="stylesheet" href="css/style.css" type="text/css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
         <link rel="shortcut icon" href="https://img.icons8.com/clouds/150/000000/folder-invoices.png" type="image/x-icon">
-        <title>LEMBRAR-ME - Anotações</title>
+        <title>LEMBRAR-ME - Resultados</title>
     </head>
-    <body class="">
+    <body id="results" class="">
         <header class="annotations-header">
             <h2><a href="/annotations.html">LEMBRAR-ME</a></h2>
             <div>
@@ -40,10 +40,10 @@
             <div id="btn-theme" class="btn-theme"><i class="bi bi-lightbulb"></i></div>
     
             <div id="annotations" class="annotations container">
-                <h1>Minhas Anotações</h1>
+                <h1>Resultados</h1>
                 <div class="search-annotations">
-                    <form id="search" action="">
-                        <input required="required" type="search" placeholder="Buscar">
+                    <form id="search">
+                        <input name="q" required="required" type="search" placeholder="Buscar">
                         <button type="submit" class="bi bi-search"></button>
                     </form>
                 </div>
@@ -52,7 +52,8 @@
 
             <div id="no-annotations" class="container">
                 <img src="imgs/robot.png" alt="Imagem de Robô">
-                <h1>Nenhuma anotação feita ainda.</h1>
+                <h1>Nada encontrado</h1>
+                <a href="annotations.html"><i class="bi bi-arrow-left"></i> Retornar</a>
             </div>
         </main>
 
@@ -93,3 +94,4 @@
         <script src="js/scripts.js" type="module"></script>
     </body>
 </html>
+

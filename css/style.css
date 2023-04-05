@@ -1,3 +1,11 @@
+.update-password .password-rules, .login-contents .login-content form .password-rules, .login-contents .sign-up-content form .password-rules, .sign-up-contents .login-content form .password-rules, .sign-up-contents .sign-up-content form .password-rules {
+  display: none;
+  margin: 20px 0;
+}
+.update-password .password-rules li, .login-contents .login-content form .password-rules li, .login-contents .sign-up-content form .password-rules li, .sign-up-contents .login-content form .password-rules li, .sign-up-contents .sign-up-content form .password-rules li {
+  color: #D96767;
+}
+
 *, a, *:after, *:before {
   margin: 0;
   padding: 0;
@@ -301,7 +309,7 @@ footer .copyright {
   font-size: 20px;
   margin-top: 30px;
 }
-.login {
+.login, .sign-up {
   width: 100%;
   height: 100vh;
   background: linear-gradient(-135deg, #c850c0, #4158d0);
@@ -309,7 +317,7 @@ footer .copyright {
   align-items: center;
   justify-content: center;
 }
-.login-contents {
+.login-contents, .sign-up-contents {
   text-align: center;
   display: flex;
   align-items: center;
@@ -319,34 +327,73 @@ footer .copyright {
   padding: 20px 0;
 }
 @media (min-width: 1000px) {
-  .login-contents {
+  .login-contents, .sign-up-contents {
     padding: 100px 0;
   }
 }
-.login-contents img {
+.login-contents img, .sign-up-contents img {
   width: 300px;
 }
-.login-contents h1 {
+.login-contents h1, .sign-up-contents h1 {
   margin-bottom: 20px;
 }
-.login-contents .login-content {
+.login-contents .login-content, .login-contents .sign-up-content, .sign-up-contents .login-content, .sign-up-contents .sign-up-content {
   text-align: center;
 }
-.login-contents .login-content form .alert-danger {
+.login-contents .login-content .login-social, .login-contents .sign-up-content .login-social, .sign-up-contents .login-content .login-social, .sign-up-contents .sign-up-content .login-social {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.login-contents .login-content .login-social .google, .login-contents .login-content .login-social .linkedin, .login-contents .sign-up-content .login-social .google, .login-contents .sign-up-content .login-social .linkedin, .sign-up-contents .login-content .login-social .google, .sign-up-contents .login-content .login-social .linkedin, .sign-up-contents .sign-up-content .login-social .google, .sign-up-contents .sign-up-content .login-social .linkedin {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  background-color: rgba(175, 211, 222, 0.49);
+}
+.login-contents .login-content .login-social .google:hover, .login-contents .login-content .login-social .linkedin:hover, .login-contents .sign-up-content .login-social .google:hover, .login-contents .sign-up-content .login-social .linkedin:hover, .sign-up-contents .login-content .login-social .google:hover, .sign-up-contents .login-content .login-social .linkedin:hover, .sign-up-contents .sign-up-content .login-social .google:hover, .sign-up-contents .sign-up-content .login-social .linkedin:hover {
+  transform: rotate(30deg);
+  transition: 0.8s;
+}
+.login-contents .login-content .login-social .google, .login-contents .sign-up-content .login-social .google, .sign-up-contents .login-content .login-social .google, .sign-up-contents .sign-up-content .login-social .google {
+  margin-right: 20px;
+}
+.login-contents .login-content form .alert-danger, .login-contents .sign-up-content form .alert-danger, .sign-up-contents .login-content form .alert-danger, .sign-up-contents .sign-up-content form .alert-danger {
   display: none;
   padding: 5px;
 }
-.login-contents .login-content form .form-control {
+.login-contents .login-content form .form-control, .login-contents .sign-up-content form .form-control, .sign-up-contents .login-content form .form-control, .sign-up-contents .sign-up-content form .form-control {
   padding: 10px;
   margin-bottom: 10px;
 }
-.login-contents .login-content ul li a {
+.login-contents .login-content form a, .login-contents .sign-up-content form a, .sign-up-contents .login-content form a, .sign-up-contents .sign-up-content form a {
+  font-size: 17px;
   color: #212124;
 }
-.login-contents .login-content ul li:first-child {
-  margin: 20px 0 10px 0;
-}
 
+.update-password {
+  text-align: center;
+}
+.update-password .container .alert-danger {
+  display: none;
+  padding: 5px;
+}
+.update-password .container h1 {
+  margin: 50px 0 30px 0;
+}
+.update-password .container form .form-control {
+  width: 100%;
+  max-width: 700px;
+  padding: 10px;
+  margin: 0 auto 10px auto;
+}
+.update-password .container a {
+  font-size: 20px;
+}
 .annotations-header {
   height: 80px;
   width: 100%;
@@ -414,20 +461,20 @@ footer .copyright {
   border-radius: 0 0 10px 10px;
   font-size: 20px;
 }
-.annotations .search-annotations {
+.annotations .search-annotations form {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 50px;
 }
-.annotations .search-annotations input {
+.annotations .search-annotations form input {
   width: 90%;
   max-width: 450px;
   padding: 12px;
   border-radius: 5px 0 0 5px;
   border: 1px solid #000;
 }
-.annotations .search-annotations .bi-search {
+.annotations .search-annotations form .bi-search {
   height: 50px;
   padding: 10px;
   color: #fff;
@@ -446,6 +493,9 @@ footer .copyright {
 }
 #no-annotations h3, .annotation-detail .no-annotation h3 {
   padding-bottom: 10px;
+}
+#no-annotations a, .annotation-detail .no-annotation a {
+  font-size: 20px;
 }
 
 .annotation-detail {
@@ -514,14 +564,14 @@ footer .copyright {
   font-size: 20px;
 }
 
-.delete {
+.delete, .logout {
   text-align: center;
   margin-top: 50px;
 }
-.delete h1 {
+.delete h1, .logout h1 {
   margin-bottom: 30px;
 }
-.delete input {
+.delete input, .logout input {
   background-color: red;
   color: #fff;
   padding: 10px 15px 10px 15px;
@@ -529,11 +579,53 @@ footer .copyright {
   border-radius: 5px;
   margin-right: 30px;
 }
-.delete input:hover {
+.delete input:hover, .logout input:hover {
   box-shadow: 0 0 5px #ff96ad, 0 0 25px #ff96ad, 0 0 50px #ff96ad, 0 0 200px #ff96ad;
 }
-.delete a {
+.delete a, .logout a {
   font-size: 20px;
+}
+
+.success {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.success div {
+  text-align: center;
+  width: 95%;
+  max-width: 400px;
+  padding: 60px;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px #C8D0D8;
+  display: inline-block;
+  margin: 50px auto;
+}
+.success div h1 {
+  color: #88B04B;
+  font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+  font-weight: 900;
+  font-size: 40px;
+  margin: 15px 0 10px 0;
+}
+.success div i {
+  color: #9ABC66;
+  font-size: 100px;
+  line-height: 100px;
+  margin-left: -15px;
+}
+.success div a {
+  font-size: 20px;
+  color: #19a3f7;
+}
+.success div p, .success div .privacy-policies a, .privacy-policies .success div a, .success div .annotation-detail .container a, .annotation-detail .container .success div a {
+  color: #404F5E;
+  font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  margin: 0;
+  padding-bottom: 20px;
 }
 
 .dark-mode {
@@ -556,19 +648,22 @@ footer .copyright {
 .dark-mode footer input[type=submit], .dark-mode footer .form-control::placeholder {
   color: #fff;
 }
-.dark-mode .login {
+.dark-mode .login, .dark-mode .sign-up {
   background: linear-gradient(-135deg, rgba(175, 211, 222, 0.49), #625F5F);
 }
-.dark-mode .login-contents {
+.dark-mode .login-contents, .dark-mode .sign-up-contents {
   background-color: #212124;
 }
-.dark-mode .login-contents ul li a {
+.dark-mode .login-contents form a, .dark-mode .sign-up-contents form a {
   color: #fff;
 }
 .dark-mode .annotations-header .bi-gear {
   color: #fff;
 }
 .dark-mode .annotations-header h2 a {
+  color: #fff;
+}
+.dark-mode .success p, .dark-mode .success .privacy-policies a, .privacy-policies .dark-mode .success a, .dark-mode .success .annotation-detail .container a, .annotation-detail .container .dark-mode .success a {
   color: #fff;
 }
 
