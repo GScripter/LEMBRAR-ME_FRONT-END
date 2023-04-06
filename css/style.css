@@ -99,7 +99,7 @@ main .cookies-alert button {
 main .btn-theme {
   z-index: 10;
   cursor: pointer;
-  background-color: rgba(175, 211, 222, 0.49);
+  background-color: #0077B6;
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -176,10 +176,11 @@ main .platform-values .cards .card p, main .platform-values .cards .card .annota
 }
 main .newsletter {
   width: 100%;
-  background-color: rgba(175, 211, 222, 0.49);
+  background-color: #0077B6;
   text-align: center;
   margin: 70px 0 50px 0;
   padding: 50px 0;
+  color: #fff;
 }
 main .newsletter h2 {
   margin-bottom: 30px;
@@ -191,10 +192,10 @@ main .newsletter form {
 main .newsletter form input {
   padding: 10px;
   border-radius: 5px;
-  border: 2px solid #22C7EB;
+  border: none;
 }
 main .newsletter form input[type=submit] {
-  background-color: #22C7EB;
+  background-color: rgba(175, 211, 222, 0.49);
   color: #fff;
 }
 main .newsletter form input[type=email] {
@@ -220,7 +221,7 @@ main .developer .developer-img img {
 main .developer .developer-img .blob {
   width: 270px;
   height: 270px;
-  background-image: linear-gradient(45deg, rgba(175, 211, 222, 0.49) 0%, rgba(175, 211, 222, 0.49) 100%);
+  background-image: linear-gradient(45deg, #0077B6 0%, #0077B6 100%);
   animation: morpheus 10s linear infinite;
 }
 @keyframes morpheus {
@@ -251,7 +252,8 @@ main .developer p, main .developer .annotation-detail .container a, .annotation-
 footer {
   margin: 50px 0 -30px 0;
   padding: 50px 0 0 0;
-  background-color: rgba(175, 211, 222, 0.49);
+  background-color: #0077B6;
+  color: #fff;
   text-align: center;
 }
 footer h2 {
@@ -290,6 +292,12 @@ footer .contact-form h3 {
 }
 footer .contact-form form {
   margin-top: 30px;
+}
+footer .contact-form form .form-control {
+  color: #fff;
+}
+footer .contact-form form .form-control::placeholder {
+  color: #fff;
 }
 footer hr {
   width: 90%;
@@ -353,7 +361,7 @@ footer .copyright {
   justify-content: center;
   align-items: center;
   font-size: 25px;
-  background-color: rgba(175, 211, 222, 0.49);
+  background-color: #0077B6;
 }
 .login-contents .login-content .login-social .google:hover, .login-contents .login-content .login-social .linkedin:hover, .login-contents .sign-up-content .login-social .google:hover, .login-contents .sign-up-content .login-social .linkedin:hover, .sign-up-contents .login-content .login-social .google:hover, .sign-up-contents .login-content .login-social .linkedin:hover, .sign-up-contents .sign-up-content .login-social .google:hover, .sign-up-contents .sign-up-content .login-social .linkedin:hover {
   transform: rotate(30deg);
@@ -397,7 +405,7 @@ footer .copyright {
 .annotations-header {
   height: 80px;
   width: 100%;
-  background-color: rgba(175, 211, 222, 0.49);
+  background-color: #0077B6;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -408,7 +416,7 @@ footer .copyright {
   line-height: 80px;
 }
 .annotations-header h2 a {
-  color: #000;
+  color: #fff;
 }
 .annotations-header .btn-success {
   width: 100px;
@@ -416,7 +424,7 @@ footer .copyright {
 }
 .annotations-header .bi-gear {
   cursor: pointer;
-  color: #000;
+  color: #fff;
 }
 
 .annotations {
@@ -431,12 +439,13 @@ footer .copyright {
 }
 .annotations .annotation .annotation-header {
   padding: 0 10px;
-  background-color: rgba(175, 211, 222, 0.49);
+  background-color: #0077B6;
   border-radius: 10px 10px 0 0;
   height: 80px;
   line-height: 80px;
   display: flex;
   justify-content: space-between;
+  color: #fff;
   font-size: 20px;
   font-weight: bold;
 }
@@ -457,9 +466,12 @@ footer .copyright {
 .annotations .annotation .annotation-main {
   height: 300px;
   padding: 20px;
-  background-color: rgba(175, 211, 222, 0.15);
+  background-color: rgba(175, 211, 222, 0.49);
   border-radius: 0 0 10px 10px;
   font-size: 20px;
+}
+.annotations .annotation .annotation-main a {
+  color: #0077B6;
 }
 .annotations .search-annotations form {
   width: 100%;
@@ -472,7 +484,7 @@ footer .copyright {
   max-width: 450px;
   padding: 12px;
   border-radius: 5px 0 0 5px;
-  border: 1px solid #000;
+  border: 1px solid grey;
 }
 .annotations .search-annotations form .bi-search {
   height: 50px;
@@ -531,7 +543,7 @@ footer .copyright {
   width: 100%;
   max-width: 700px;
   margin-bottom: 20px;
-  background-color: #677880;
+  background-color: #0077B6;
   padding: 15px;
   border-radius: 10px;
   color: #fff;
@@ -636,20 +648,23 @@ footer .copyright {
   color: #212124;
 }
 .dark-mode .cards .card {
-  background-color: rgba(175, 211, 222, 0.49);
+  background-color: #0077B6;
 }
 .dark-mode main .cookies-alert {
   background-color: #212124;
-  box-shadow: rgba(175, 211, 222, 0.49) 0px 5px 15px;
+  box-shadow: #0077B6 0px 5px 15px;
 }
 .dark-mode main .btn-theme {
   color: #fff;
 }
-.dark-mode footer input[type=submit], .dark-mode footer .form-control::placeholder {
+.dark-mode footer .form-control::placeholder {
+  color: #fff;
+}
+.dark-mode footer input[type=submit] {
   color: #fff;
 }
 .dark-mode .login, .dark-mode .sign-up {
-  background: linear-gradient(-135deg, rgba(175, 211, 222, 0.49), #625F5F);
+  background: linear-gradient(-135deg, #0077B6, #625F5F);
 }
 .dark-mode .login-contents, .dark-mode .sign-up-contents {
   background-color: #212124;
@@ -657,11 +672,8 @@ footer .copyright {
 .dark-mode .login-contents form a, .dark-mode .sign-up-contents form a {
   color: #fff;
 }
-.dark-mode .annotations-header .bi-gear {
-  color: #fff;
-}
-.dark-mode .annotations-header h2 a {
-  color: #fff;
+.dark-mode .annotations .annotation-main a {
+  color: rgba(175, 211, 222, 0.49);
 }
 .dark-mode .success p, .dark-mode .success .privacy-policies a, .privacy-policies .dark-mode .success a, .dark-mode .success .annotation-detail .container a, .annotation-detail .container .dark-mode .success a {
   color: #fff;

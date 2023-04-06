@@ -1,4 +1,6 @@
-export default class Annotation{
+import { SIGN_UP_ENDPOINT, TOKEN_OBTAIN_ENDPOINT, ACCOUNT_DELETE_ENDPOINT, UPDATE_PASSWORD_ENDPOINT } from "./scripts.js"
+
+class Annotation{
     constructor(title, summary, text){
         this.title = title
         this.summary = summary
@@ -36,7 +38,7 @@ export default class Annotation{
         MAIN_TEXT.innerHTML = this.summary
         ARTICLE_HEADER.appendChild(HEADER_TITLE)
         ARTICLE_HEADER.appendChild(HEADER_UL)
-        MAIN_TEXT.innerHTML += ` <a href='annotation.html?id=${id}'>Ver mais</a>`
+        MAIN_TEXT.innerHTML += ` <a href='annotation.html?id=${id}'>Ver mais +</a>`
         ARTICLE_MAIN.appendChild(MAIN_TEXT)
         ANNOTATION_ARTICLE.appendChild(ARTICLE_HEADER)
         ANNOTATION_ARTICLE.appendChild(ARTICLE_MAIN)
@@ -144,3 +146,109 @@ export default class Annotation{
     }
 }
 
+
+class User{
+    constructor(username, email, password){
+        this.username = username
+        this.email = email
+        this.password = password
+    }
+
+    signUp(){
+        fetch(SIGN_UP_ENDPOINT, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: this.username,
+                email: this.email,
+                password: this.password,
+            }),
+        }).then(response => {
+            if(response.ok == true){
+                this.signIn()
+            }else{
+                response.json().then(json => {
+                    if(json.password){
+                        ALERT.style = "display: block;"
+                        ALERT.innerHTML = "Crie uma senha forte o suficiente."
+                    }else if(json.username){
+                        ALERT.style = "display: block;"
+                        ALERT.innerHTML = "Nome de usuário já existe no sistema."
+                    }
+                })
+            }
+        })
+    }
+
+    signIn(){
+        const ALERT = document.getElementsByClassName("alert-danger")[0]
+        fetch(TOKEN_OBTAIN_ENDPOINT, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: this.username,
+                password: this.password,
+            }),
+        }).then(response => {
+            if(response.ok == true){
+                response.json().then(json => {
+                    localStorage.access = json.access
+                    localStorage.refresh = json.refresh
+                    window.location = "annotations.html"
+                })
+            }else{
+                ALERT.style = "display: block;"
+                ALERT.innerHTML = "Usuário ou senha incorreta."
+            }
+        })
+    } 
+
+    logout(){
+        localStorage.removeItem("access")
+        localStorage.removeItem("refresh")
+        window.location = "login.html"
+    }
+
+    deleteAccount(){
+        fetch(ACCOUNT_DELETE_ENDPOINT, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+localStorage.access
+            }
+        }).then(response => {
+            if(response.ok == true){
+                localStorage.removeItem("access")
+                localStorage.removeItem("refresh")
+                window.location = "index.html"
+            }else{
+                alert("Algo deu errado ao deletar a conta! Entre em contato e informe o problema.")
+            }
+        })
+    }
+
+    changePassword(){
+        fetch(UPDATE_PASSWORD_ENDPOINT, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+localStorage.access
+            },
+            body: JSON.stringify({
+                password: this.password,
+            })
+        }).then(response => {
+            if(response.ok == true){
+                window.location = "update-password-success.html"
+            }else{
+                alert("Não foi possível alterar sua senha. Se o erro persistir entre em contato pelo formário de contato no rodapé.")
+            }
+        })
+    }
+}
+
+export { Annotation, User }

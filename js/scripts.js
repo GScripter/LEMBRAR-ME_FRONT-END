@@ -1,12 +1,12 @@
-import Annotation from "./annotation.js"
+import { Annotation, User } from "./user_and_annotation.js"
 
-// Endpoints
+// ENDPOINTS
 const SITE_CONTENT_ENDPOINT = "http://127.0.0.1:8000/"
 const TOKEN_OBTAIN_ENDPOINT = "http://127.0.0.1:8000/api/token/"
 const TOKEN_REFRESH_ENDPOINT = "http://127.0.0.1:8000/api/token/refresh/"
 const SIGN_UP_ENDPOINT = "http://127.0.0.1:8000/api/register/"
 const ACCOUNT_DELETE_ENDPOINT = "http://127.0.0.1:8000/api/delete/account/"
-const UPDATE_PASSWORD_ENDPOINT = "http://127.0.0.1:8000/update/password/"
+const UPDATE_PASSWORD_ENDPOINT = "http://127.0.0.1:8000/api/update/password/"
 const SUBSCRIBE_ENDPOINT = "http://127.0.0.1:8000/subscribe/"
 const CONTACT_ENDPOINT = "http://127.0.0.1:8000/contact/"
 
@@ -44,7 +44,7 @@ function validatePasswordAndShowRules(option, password){
         if(PASSWORD[0].value == PASSWORD[1].value){
             if(PASSWORD[0].value.search(/[A-Z]/) != -1 &&
                 PASSWORD[0].value.search(/[0-9]/) != -1 &&
-                PASSWORD[0].value.search(/[@$%&*()+=.;,|]/) != -1 &&
+                PASSWORD[0].value.search(/[@#!$%&*()_+=.;,|/]/) != -1 &&
                 PASSWORD[0].value.length >= 8){
                 return true
             }else{
@@ -60,7 +60,7 @@ function validatePasswordAndShowRules(option, password){
     }
 }
 
-// Cookies Alert
+// COOKIES ALERT
 if(!(localStorage.cookies)){
     const cookies_alert = [...document.getElementsByClassName("cookies-alert")]
     const btn_cookies = [...document.getElementsByClassName("btn-cookies")]
@@ -71,7 +71,7 @@ if(!(localStorage.cookies)){
     })
 }
 
-// Theme
+// THEME
 const body = document.body
 const btn_theme = document.getElementById("btn-theme")
 btn_theme.addEventListener("click", (evt) => {
@@ -88,7 +88,7 @@ if(localStorage.theme){
     }
 }
 
-// API - Site Content
+// API - SITE CONTENT
 if(document.getElementById("home")){
     fetch(SITE_CONTENT_ENDPOINT).then(response => response.json()).then(json => {
         const ABOUT_PLATFORM = document.getElementById("about-platform")
@@ -103,7 +103,7 @@ if(document.getElementById("home")){
         ABOUT_DEVELOPER.children[1].children[1].innerHTML = json[0].about_developer
         ABOUT_DEVELOPER.children[0].children[0].setAttribute("src", json[0].developer_img)
     })
-    // Subscribe
+    // SUBSCRIBE
     const BTN_SUBSCRIBE = document.getElementById("subscribe")
     BTN_SUBSCRIBE.addEventListener("submit", (evt) => {
         evt.preventDefault()
@@ -130,7 +130,7 @@ if(document.getElementById("home")){
     })
 }
 
-// API - Update Token
+// API - UPDATE TOKEN
 if(!(document.getElementById("home")) && !(document.getElementById("login")) &&
     !(document.getElementById("privacy-policies")) && !(document.getElementById("sign-up")) &&
     !(document.getElementById("success"))
@@ -155,124 +155,63 @@ if(!(document.getElementById("home")) && !(document.getElementById("login")) &&
     })
 }
 
-// API - Obtain Token
-function login(username, password){
-    const ALERT = document.getElementsByClassName("alert-danger")[0]
-    fetch(TOKEN_OBTAIN_ENDPOINT, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password,
-        }),
-    }).then(response => {
-        if(response.ok == true){
-            response.json().then(json => {
-                localStorage.access = json.access
-                localStorage.refresh = json.refresh
-                window.location = "annotations.html"
-            })
-        }else{
-            ALERT.style = "display: block;"
-            ALERT.innerHTML = "Usuário ou senha incorreta."
-        }
-    })
-}
-if(document.getElementById("login-form")){
-    const login_form = document.getElementById("login-form")
-    login_form.addEventListener("submit", (evt) => {
-        evt.preventDefault()
-        login(evt.target.elements[0].value, evt.target.elements[1].value)
-    })
-}
-
 // API - SIGN UP
 if(document.getElementById("sign-up-form")){
     [...document.getElementsByClassName("password")].map(el => {
-        el.addEventListener("input", (evt) => validatePassword("rules", evt.target.value))
+        el.addEventListener("input", (evt) => validatePasswordAndShowRules("rules", evt.target.value))
     })
     document.getElementById("sign-up-form").addEventListener("submit", (evt) => {
         evt.preventDefault()
         if(validatePasswordAndShowRules("validate") == true){
-            fetch(SIGN_UP_ENDPOINT, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: evt.target.elements[0].value,
-                    email: evt.target.elements[1].value,
-                    password: evt.target.elements[2].value,
-                }),
-            }).then(response => {
-                if(response.ok == true){
-                    response.json().then(json => {
-                        localStorage.user = json.id
-                        login(evt.target.elements[0].value, evt.target.elements[2].value)
-                    })
-                }else{
-                    response.json().then(json => {
-                        if(json.password){
-                            ALERT.style = "display: block;"
-                            ALERT.innerHTML = "Crie uma senha forte o suficiente."
-                        }else if(json.username){
-                            ALERT.style = "display: block;"
-                            ALERT.innerHTML = "Nome de usuário já existe no sistema."
-                        }
-                    })
-                }
-            })
+            new User(evt.target.elements[0].value, evt.target.elements[1].value, evt.target.elements[2].value).signUp()
         }
     })
 }
 
-// API - Logout
+// API - SIGN IN
+if(document.getElementById("login-form")){
+    const login_form = document.getElementById("login-form")
+    login_form.addEventListener("submit", (evt) => {
+        evt.preventDefault()
+        const USER = new User()
+        USER.username = evt.target.elements[0].value
+        USER.password = evt.target.elements[1].value
+        USER.signIn()
+    })
+}
+
+// API - LOGOUT
 if(document.getElementById("logout")){
     const logout = document.getElementById("btn-logout")
     logout.addEventListener("click", () => {
-        localStorage.removeItem("access")
-        localStorage.removeItem("refresh")
-        window.location = "login.html"
+        new User().logout()
     })
 }
 
-// API - Delete Account
+// API - DELETE ACCOUNT
 if(document.getElementById("btn-delete-account")){
     const delete_account = document.getElementById("btn-delete-account")
     delete_account.addEventListener("click", () => {
-        fetch(`${ACCOUNT_DELETE_ENDPOINT}${localStorage.user}/`, {
-            method: "DELETE",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+localStorage.access
-            }
-        }).then(response => {
-            if(response.ok == true){
-                localStorage.removeItem("access")
-                localStorage.removeItem("refresh")
-                window.location = "index.html"
-            }else{
-                alert("Algo deu errado ao deletar a conta! Entre em contato e informe o problema.")
-            }
-        })
+        new User().deleteAccount()
     })
 }
 
-// API - Update Password
+// API - UPDATE PASSWORD
 if(document.getElementById("update-password")){
     [...document.getElementsByClassName("password")].map(el => {
-        el.addEventListener("input", (evt) => validatePassword("rules", evt.target.value))
+        el.addEventListener("input", (evt) => validatePasswordAndShowRules("rules", evt.target.value))
     })
     document.getElementById("update-password").addEventListener("submit", (evt) => {
         evt.preventDefault()
         if(validatePasswordAndShowRules("validate") == true){
+            const USER = new User()
+            USER.password = evt.target.elements[0].value
+            USER.changePassword()
         }
     })
 }
 
-// API - Get and Show Annotations
+// API - GET AND SHOW ANNOTATIONS
 if(document.getElementById("annotations") && !(document.getElementById("results"))){
     fetch("http://127.0.0.1:8000/annotations/", {
         headers: {
@@ -291,7 +230,7 @@ if(document.getElementById("annotations") && !(document.getElementById("results"
     })
 }
 
-// API - Create Annotation
+// API - CREATE ANNOTATION
 if(document.getElementById("create-annotation")){
     const create_annotation = document.getElementById("create-annotation")
     create_annotation.addEventListener("submit", (evt) => {
@@ -300,7 +239,7 @@ if(document.getElementById("create-annotation")){
     })
 }
 
-// API - Delete Annotation
+// API - DELETE ANNOTATION
 if(document.getElementById("btn-delete-annotation")){
     const delete_annotation = document.getElementById("btn-delete-annotation")
     delete_annotation.addEventListener("click", () => {
@@ -309,7 +248,7 @@ if(document.getElementById("btn-delete-annotation")){
     })
 }
 
-// API - Update Annotation
+// API - UPDATE ANNOTATION
 if(document.getElementById("update-annotation")){
     const update_annotation = document.getElementById("update-annotation")
     const urlParams = new URLSearchParams(window.location.search)
@@ -322,7 +261,7 @@ if(document.getElementById("update-annotation")){
     })
 }
 
-// API - Get Annotation Detail
+// API - GET ANNOTATION DETAIL
 if(document.getElementById("annotation-detail")){
     const urlParams = new URLSearchParams(window.location.search)
     if(urlParams.get("id")){
@@ -333,7 +272,7 @@ if(document.getElementById("annotation-detail")){
     }
 }
 
-//  API - Search Annotations
+//  API - SEARCH ANNOTATIONS
 if(document.getElementById("search")){
     const search = document.getElementById("search")
     search.addEventListener("submit", (evt) => {
@@ -352,12 +291,12 @@ if(document.getElementById("results")){
     }
 }
 
-// Return to previous page
+// RETURN TO PREVIOUS PAGE
 if(document.getElementById("return")){
     document.getElementById("return").setAttribute("href", document.referrer)
 }
 
-// Contact Form
+// CONTACT FORM
 if(document.getElementById("contact-form")){
     document.getElementById("contact-form").addEventListener("submit", (evt) => {
         evt.preventDefault()
@@ -381,4 +320,4 @@ if(document.getElementById("contact-form")){
     })
 }
 
-
+export { SIGN_UP_ENDPOINT, TOKEN_OBTAIN_ENDPOINT, ACCOUNT_DELETE_ENDPOINT, UPDATE_PASSWORD_ENDPOINT }
