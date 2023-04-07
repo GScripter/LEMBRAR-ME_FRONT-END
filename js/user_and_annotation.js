@@ -1,4 +1,4 @@
-import { SIGN_UP_ENDPOINT, TOKEN_OBTAIN_ENDPOINT, ACCOUNT_DELETE_ENDPOINT, UPDATE_PASSWORD_ENDPOINT } from "./scripts.js"
+import * as endpoint from "./endpoints.js"
 
 class Annotation{
     constructor(title, summary, text){
@@ -53,7 +53,7 @@ class Annotation{
     }
 
     create_annotation(){
-        fetch("http://127.0.0.1:8000/create/annotation/",{
+        fetch(endpoint.CREATE_ANNOTATION,{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ class Annotation{
     }
 
     delete_annotation(id){
-        fetch(`http://127.0.0.1:8000/delete/annotation/${id}/`, {
+        fetch(`${endpoint.DELETE_ANNOTATION}${id}/`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ class Annotation{
     }
 
     update_annotation(id){
-        fetch(`http://127.0.0.1:8000/annotations/update/${id}/`, {
+        fetch(`${endpoint.UPDATE_ANNOTATION}${id}/`, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ class Annotation{
     }
 
     get_annotation(id){
-        fetch(`http://127.0.0.1:8000/annotations/${id}/`, {
+        fetch(`${endpoint.ANNOTATIONS}${id}/`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer '+localStorage.access
@@ -128,7 +128,7 @@ class Annotation{
     }
 
     search(query){
-        fetch(`http://127.0.0.1:8000/search/annotations/?q=${query}`, {
+        fetch(`${endpoint.ANNOTATIONS}search/?q=${query}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer '+localStorage.access
@@ -155,7 +155,7 @@ class User{
     }
 
     signUp(){
-        fetch(SIGN_UP_ENDPOINT, {
+        fetch(endpoint.SIGN_UP, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -184,7 +184,7 @@ class User{
 
     signIn(){
         const ALERT = document.getElementsByClassName("alert-danger")[0]
-        fetch(TOKEN_OBTAIN_ENDPOINT, {
+        fetch(endpoint.TOKEN_OBTAIN, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -214,7 +214,7 @@ class User{
     }
 
     deleteAccount(){
-        fetch(ACCOUNT_DELETE_ENDPOINT, {
+        fetch(endpoint.DELETE_ACCOUNT, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -232,7 +232,7 @@ class User{
     }
 
     changePassword(){
-        fetch(UPDATE_PASSWORD_ENDPOINT, {
+        fetch(endpoint.UPDATE_PASSWORD, {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

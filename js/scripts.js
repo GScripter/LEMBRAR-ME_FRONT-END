@@ -1,15 +1,5 @@
 import { Annotation, User } from "./user_and_annotation.js"
-
-// ENDPOINTS
-const SITE_CONTENT_ENDPOINT = "http://127.0.0.1:8000/"
-const TOKEN_OBTAIN_ENDPOINT = "http://127.0.0.1:8000/api/token/"
-const TOKEN_REFRESH_ENDPOINT = "http://127.0.0.1:8000/api/token/refresh/"
-const SIGN_UP_ENDPOINT = "http://127.0.0.1:8000/api/register/"
-const ACCOUNT_DELETE_ENDPOINT = "http://127.0.0.1:8000/api/delete/account/"
-const UPDATE_PASSWORD_ENDPOINT = "http://127.0.0.1:8000/api/update/password/"
-const SUBSCRIBE_ENDPOINT = "http://127.0.0.1:8000/subscribe/"
-const CONTACT_ENDPOINT = "http://127.0.0.1:8000/contact/"
-
+import * as endpoint from "./endpoints.js"
 
 function validatePasswordAndShowRules(option, password){
     if(option == "rules"){
@@ -90,24 +80,30 @@ if(localStorage.theme){
 
 // API - SITE CONTENT
 if(document.getElementById("home")){
-    fetch(SITE_CONTENT_ENDPOINT).then(response => response.json()).then(json => {
-        const ABOUT_PLATFORM = document.getElementById("about-platform")
-        ABOUT_PLATFORM.children[1].children[1].children[1].innerHTML = json[0].about_platform
+    fetch(endpoint.SITE_CONTENT).then(response => {
+        if(response.ok == true){ 
+            response.json().then(json => {
+                const ABOUT_PLATFORM = document.getElementById("about-platform")
+                ABOUT_PLATFORM.children[1].children[1].children[1].innerHTML = json[0].about_platform
 
-        const PLATFORM_VALUES = document.getElementById("platform-values")
-        PLATFORM_VALUES.children[1].children[0].children[0].children[2].innerHTML = json[0].values_card_0
-        PLATFORM_VALUES.children[1].children[1].children[0].children[2].innerHTML = json[0].values_card_1
-        PLATFORM_VALUES.children[1].children[2].children[0].children[2].innerHTML = json[0].values_card_2
+                const PLATFORM_VALUES = document.getElementById("platform-values")
+                PLATFORM_VALUES.children[1].children[0].children[0].children[2].innerHTML = json[0].values_card_0
+                PLATFORM_VALUES.children[1].children[1].children[0].children[2].innerHTML = json[0].values_card_1
+                PLATFORM_VALUES.children[1].children[2].children[0].children[2].innerHTML = json[0].values_card_2
 
-        const ABOUT_DEVELOPER = document.getElementById("developer")
-        ABOUT_DEVELOPER.children[1].children[1].innerHTML = json[0].about_developer
-        ABOUT_DEVELOPER.children[0].children[0].setAttribute("src", json[0].developer_img)
+                const ABOUT_DEVELOPER = document.getElementById("developer")
+                ABOUT_DEVELOPER.children[1].children[1].innerHTML = json[0].about_developer
+                ABOUT_DEVELOPER.children[0].children[0].setAttribute("src", json[0].developer_img)
+            })
+        }else{
+            console.log("Not found")
+        }
     })
     // SUBSCRIBE
     const BTN_SUBSCRIBE = document.getElementById("subscribe")
     BTN_SUBSCRIBE.addEventListener("submit", (evt) => {
         evt.preventDefault()
-        fetch(SUBSCRIBE_ENDPOINT, {
+        fetch(endpoint.SUBSCRIBE, {
             method: "POST",
             headers: {
                 'Content-type': 'application/json',
@@ -124,7 +120,7 @@ if(document.getElementById("home")){
         })
     })
 }else if(document.getElementById("privacy-policies")){
-    fetch(SITE_CONTENT_ENDPOINT).then(response => response.json()).then(json => {
+    fetch(endpoint.SITE_CONTENT).then(response => response.json()).then(json => {
         const PRIVACY_POLICIES = document.getElementById("privacy-policies")
         PRIVACY_POLICIES.children[1].innerHTML = json[0].privacy_policies
     })
@@ -135,7 +131,7 @@ if(!(document.getElementById("home")) && !(document.getElementById("login")) &&
     !(document.getElementById("privacy-policies")) && !(document.getElementById("sign-up")) &&
     !(document.getElementById("success"))
 ){
-    fetch(TOKEN_REFRESH_ENDPOINT, {
+    fetch(endpoint.TOKEN_REFRESH, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -213,7 +209,7 @@ if(document.getElementById("update-password")){
 
 // API - GET AND SHOW ANNOTATIONS
 if(document.getElementById("annotations") && !(document.getElementById("results"))){
-    fetch("http://127.0.0.1:8000/annotations/", {
+    fetch(endpoint.ANNOTATIONS, {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer '+localStorage.access
@@ -300,7 +296,7 @@ if(document.getElementById("return")){
 if(document.getElementById("contact-form")){
     document.getElementById("contact-form").addEventListener("submit", (evt) => {
         evt.preventDefault()
-        fetch(CONTACT_ENDPOINT, {
+        fetch(endpoint.CONTACT, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -320,4 +316,3 @@ if(document.getElementById("contact-form")){
     })
 }
 
-export { SIGN_UP_ENDPOINT, TOKEN_OBTAIN_ENDPOINT, ACCOUNT_DELETE_ENDPOINT, UPDATE_PASSWORD_ENDPOINT }
