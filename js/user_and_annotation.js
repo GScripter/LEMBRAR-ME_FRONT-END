@@ -155,31 +155,33 @@ class User{
     }
 
     signUp(){
-        fetch(endpoint.SIGN_UP, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: this.username,
-                email: this.email,
-                password: this.password,
-            }),
-        }).then(response => {
-            if(response.ok == true){
-                this.signIn()
-            }else{
-                response.json().then(json => {
-                    if(json.password){
-                        ALERT.style = "display: block;"
-                        ALERT.innerHTML = "Crie uma senha forte o suficiente."
-                    }else if(json.username){
-                        ALERT.style = "display: block;"
-                        ALERT.innerHTML = "Nome de usuário já existe no sistema."
-                    }
-                })
-            }
-        })
+        if(this.validatePasswordAndShowRules("validate") == true){
+            fetch(endpoint.SIGN_UP, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: this.username,
+                    email: this.email,
+                    password: this.password,
+                }),
+            }).then(response => {
+                if(response.ok == true){
+                    this.signIn()
+                }else{
+                    response.json().then(json => {
+                        if(json.password){
+                            ALERT.style = "display: block;"
+                            ALERT.innerHTML = "Crie uma senha forte o suficiente."
+                        }else if(json.username){
+                            ALERT.style = "display: block;"
+                            ALERT.innerHTML = "Nome de usuário já existe no sistema."
+                        }
+                    })
+                }
+            })
+        }
     }
 
     signIn(){
@@ -231,23 +233,74 @@ class User{
         })
     }
 
-    changePassword(){
-        fetch(endpoint.UPDATE_PASSWORD, {
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+localStorage.access
-            },
-            body: JSON.stringify({
-                password: this.password,
+    changePassword(option){
+        if(this.validatePasswordAndShowRules("validate") == true){
+            fetch(endpoint.UPDATE_PASSWORD, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+localStorage.access
+                },
+                body: JSON.stringify({
+                    password: this.password,
+                })
+            }).then(response => {
+                if(response.ok == true){
+                    window.location = "update-password-success.html"
+                }else{
+                    alert("Não foi possível alterar sua senha. Se o erro persistir entre em contato pelo formário de contato no rodapé.")
+                }
             })
-        }).then(response => {
-            if(response.ok == true){
-                window.location = "update-password-success.html"
+        }
+    }
+
+    validatePasswordAndShowRules(option, password=null){
+        if(option == "rules"){
+            const PASSWORD_RULES = document.getElementById("password-rules")
+            PASSWORD_RULES.style.display = "block"
+            if(password.search(/[A-Z]/) != -1){
+               PASSWORD_RULES.children[0].style.color = "#6AB83F"
             }else{
-                alert("Não foi possível alterar sua senha. Se o erro persistir entre em contato pelo formário de contato no rodapé.")
+               PASSWORD_RULES.children[0].style.color = "#D96767"
             }
-        })
+
+            if(password.search(/[0-9]/) != -1){
+               PASSWORD_RULES.children[1].style.color = "#6AB83F"
+            }else{
+               PASSWORD_RULES.children[1].style.color = "#D96767"
+            }
+
+            if(password.length >= 8){
+               PASSWORD_RULES.children[2].style.color = "#6AB83F"
+            }else{
+               PASSWORD_RULES.children[2].style.color = "#D96767"
+            }
+
+            if(password.search(/[@#!$%&*()_+=.;,|/]/) != -1){
+               PASSWORD_RULES.children[3].style.color = "#6AB83F"
+            }else{
+               PASSWORD_RULES.children[3].style.color = "#D96767"
+            }
+        }else if(option == "validate"){
+            const ALERT = document.getElementsByClassName("alert-danger")[0]
+            const PASSWORD = document.getElementsByClassName("password")
+            if(PASSWORD[0].value == PASSWORD[1].value){
+                if(PASSWORD[0].value.search(/[A-Z]/) != -1 &&
+                    PASSWORD[0].value.search(/[0-9]/) != -1 &&
+                    PASSWORD[0].value.search(/[@#!$%&*()_+=.;,|/]/) != -1 &&
+                    PASSWORD[0].value.length >= 8){
+                    return true
+                }else{
+                    ALERT.style = "display: block;"
+                    ALERT.innerHTML = "Crie uma senha forte o suficiente."
+                    return false
+                }
+            }else{
+                ALERT.style = "display: block;"
+                ALERT.innerHTML = "Suas senhas precisam ser iguais."
+                return false
+            }
+        }
     }
 }
 

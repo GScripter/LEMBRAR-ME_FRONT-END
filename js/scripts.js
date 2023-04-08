@@ -1,55 +1,6 @@
 import { Annotation, User } from "./user_and_annotation.js"
 import * as endpoint from "./endpoints.js"
 
-function validatePasswordAndShowRules(option, password){
-    if(option == "rules"){
-        const PASSWORD_RULES = document.getElementById("password-rules")
-        PASSWORD_RULES.style.display = "block"
-        if(password.search(/[A-Z]/) != -1){
-           PASSWORD_RULES.children[0].style.color = "#6AB83F"
-        }else{
-           PASSWORD_RULES.children[0].style.color = "#D96767"
-        }
-
-        if(password.search(/[0-9]/) != -1){
-           PASSWORD_RULES.children[1].style.color = "#6AB83F"
-        }else{
-           PASSWORD_RULES.children[1].style.color = "#D96767"
-        }
-
-        if(password.length >= 8){
-           PASSWORD_RULES.children[2].style.color = "#6AB83F"
-        }else{
-           PASSWORD_RULES.children[2].style.color = "#D96767"
-        }
-
-        if(password.search(/[@#!$%&*()_+=.;,|/]/) != -1){
-           PASSWORD_RULES.children[3].style.color = "#6AB83F"
-        }else{
-           PASSWORD_RULES.children[3].style.color = "#D96767"
-        }
-    }else if(option == "validate"){
-        const ALERT = document.getElementsByClassName("alert-danger")[0]
-        const PASSWORD = document.getElementsByClassName("password")
-        if(PASSWORD[0].value == PASSWORD[1].value){
-            if(PASSWORD[0].value.search(/[A-Z]/) != -1 &&
-                PASSWORD[0].value.search(/[0-9]/) != -1 &&
-                PASSWORD[0].value.search(/[@#!$%&*()_+=.;,|/]/) != -1 &&
-                PASSWORD[0].value.length >= 8){
-                return true
-            }else{
-                ALERT.style = "display: block;"
-                ALERT.innerHTML = "Crie uma senha forte o suficiente."
-                return false
-            }
-        }else{
-            ALERT.style = "display: block;"
-            ALERT.innerHTML = "Suas senhas precisam ser iguais."
-            return false
-        }
-    }
-}
-
 // COOKIES ALERT
 if(!(localStorage.cookies)){
     const cookies_alert = [...document.getElementsByClassName("cookies-alert")]
@@ -154,11 +105,11 @@ if(!(document.getElementById("home")) && !(document.getElementById("login")) &&
 // API - SIGN UP
 if(document.getElementById("sign-up-form")){
     [...document.getElementsByClassName("password")].map(el => {
-        el.addEventListener("input", (evt) => validatePasswordAndShowRules("rules", evt.target.value))
+        el.addEventListener("input", (evt) => new User().validatePasswordAndShowRules("rules", evt.target.value))
     })
     document.getElementById("sign-up-form").addEventListener("submit", (evt) => {
         evt.preventDefault()
-        if(validatePasswordAndShowRules("validate") == true){
+        if(new User().validatePasswordAndShowRules("validate") == true){
             new User(evt.target.elements[0].value, evt.target.elements[1].value, evt.target.elements[2].value).signUp()
         }
     })
@@ -195,15 +146,13 @@ if(document.getElementById("btn-delete-account")){
 // API - UPDATE PASSWORD
 if(document.getElementById("update-password")){
     [...document.getElementsByClassName("password")].map(el => {
-        el.addEventListener("input", (evt) => validatePasswordAndShowRules("rules", evt.target.value))
+        el.addEventListener("input", (evt) => new User().validatePasswordAndShowRules("rules", evt.target.value))
     })
     document.getElementById("update-password").addEventListener("submit", (evt) => {
         evt.preventDefault()
-        if(validatePasswordAndShowRules("validate") == true){
-            const USER = new User()
-            USER.password = evt.target.elements[0].value
-            USER.changePassword()
-        }
+        const USER = new User()
+        USER.password = evt.target.elements[0].value
+        USER.changePassword()
     })
 }
 
