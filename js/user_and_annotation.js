@@ -57,7 +57,7 @@ class Annotation{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+localStorage.access
+                'Authorization': `Token ${localStorage.access}`
             },
             body: JSON.stringify({
                 title: this.title,
@@ -78,7 +78,7 @@ class Annotation{
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+localStorage.access
+                'Authorization': `Token ${localStorage.access}`
             },
         }).then(response => {
             if(response.status == 204){
@@ -94,7 +94,7 @@ class Annotation{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+localStorage.access
+                'Authorization': `Token ${localStorage.access}`
             },
             body: JSON.stringify({
                 title: this.title,
@@ -114,7 +114,7 @@ class Annotation{
         fetch(`${endpoint.ANNOTATIONS}${id}/`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+localStorage.access
+                'Authorization': `Token ${localStorage.access}`
             },
         }).then(response => response.json()).then(json => {
             if(json.title && json.text){
@@ -131,7 +131,7 @@ class Annotation{
         fetch(`${endpoint.ANNOTATIONS}search/?q=${query}`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+localStorage.access
+                'Authorization': `Token ${localStorage.access}`
             },
         }).then(response => response.json()).then(json => {
             if(json.length > 0){
@@ -148,45 +148,16 @@ class Annotation{
 
 
 class User{
-    constructor(username, email, password){
+    constructor(username, email, password, password2){
         this.username = username
         this.email = email
         this.password = password
-    }
-
-    signUp(){
-        if(this.validatePasswordAndShowRules("validate") == true){
-            fetch(endpoint.SIGN_UP, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: this.username,
-                    email: this.email,
-                    password: this.password,
-                }),
-            }).then(response => {
-                if(response.ok == true){
-                    this.signIn()
-                }else{
-                    response.json().then(json => {
-                        if(json.password){
-                            ALERT.style = "display: block;"
-                            ALERT.innerHTML = "Crie uma senha forte o suficiente."
-                        }else if(json.username){
-                            ALERT.style = "display: block;"
-                            ALERT.innerHTML = "Nome de usuário já existe no sistema."
-                        }
-                    })
-                }
-            })
-        }
+        this.password2 = password2
     }
 
     signIn(){
         const ALERT = document.getElementsByClassName("alert-danger")[0]
-        fetch(endpoint.TOKEN_OBTAIN, {
+        fetch(endpoint.SIGN_IN, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -198,8 +169,7 @@ class User{
         }).then(response => {
             if(response.ok == true){
                 response.json().then(json => {
-                    localStorage.access = json.access
-                    localStorage.refresh = json.refresh
+                    localStorage.access = json.key
                     window.location = "annotations.html"
                 })
             }else{
@@ -209,10 +179,69 @@ class User{
         })
     } 
 
+    passwordChange(){
+        const ALERT = document.getElementsByClassName("alert-danger")[0]
+        if(this.validatePasswordAndShowRules("validate") == true){
+            fetch(endpoint.PASSWORD_CHANGE, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.access}`
+                },
+                body: JSON.stringify({
+                    new_password1: this.password,
+                    new_password2: this.password2
+                }),
+            }).then(response => {
+                if(response.ok == true){
+                    window.location = "update-password-success.html"
+                }else{
+                    ALERT.style = "display: block;"
+                    response.json().then(json => {
+                        ALERT.innerHTML = Object.values(json)
+                    })
+                }
+            })
+        } 
+    }
+
+    signUp(){
+        const ALERT = document.getElementsByClassName("alert-danger")[0]
+        if(this.validatePasswordAndShowRules("validate") == true){
+            fetch(endpoint.SIGN_UP, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: this.username,
+                    email: this.email,
+                    password1: this.password,
+                    password2: this.password2
+                }),
+            }).then(response => {
+                if(response.ok == true){
+                    this.signIn()
+                }else{
+                    ALERT.style = "display: block;"
+                    response.json().then(json => {
+                        ALERT.innerHTML = Object.values(json)
+                    })
+                }
+            })
+        } 
+    }
+
     logout(){
-        localStorage.removeItem("access")
-        localStorage.removeItem("refresh")
-        window.location = "login.html"
+        fetch(endpoint.LOGOUT, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.access}`
+            }
+        }).then(response => {
+            localStorage.removeItem("access")
+            window.location = 'index.html'
+        })
     }
 
     deleteAccount(){
@@ -220,38 +249,16 @@ class User{
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+localStorage.access
+                'Authorization': `Token ${localStorage.access}`
             }
         }).then(response => {
             if(response.ok == true){
                 localStorage.removeItem("access")
-                localStorage.removeItem("refresh")
                 window.location = "index.html"
             }else{
                 alert("Algo deu errado ao deletar a conta! Entre em contato e informe o problema.")
             }
         })
-    }
-
-    changePassword(option){
-        if(this.validatePasswordAndShowRules("validate") == true){
-            fetch(endpoint.UPDATE_PASSWORD, {
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+localStorage.access
-                },
-                body: JSON.stringify({
-                    password: this.password,
-                })
-            }).then(response => {
-                if(response.ok == true){
-                    window.location = "update-password-success.html"
-                }else{
-                    alert("Não foi possível alterar sua senha. Se o erro persistir entre em contato pelo formário de contato no rodapé.")
-                }
-            })
-        }
     }
 
     validatePasswordAndShowRules(option, password=null){

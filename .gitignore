@@ -2,3 +2,5 @@
 *.swap
 *.swo
 *.vim
+server.py
+*.pem

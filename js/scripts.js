@@ -46,8 +46,6 @@ if(document.getElementById("home")){
                 ABOUT_DEVELOPER.children[1].children[1].innerHTML = json[0].about_developer
                 ABOUT_DEVELOPER.children[0].children[0].setAttribute("src", json[0].developer_img)
             })
-        }else{
-            console.log("Not found")
         }
     })
     // SUBSCRIBE
@@ -77,42 +75,11 @@ if(document.getElementById("home")){
     })
 }
 
-// API - UPDATE TOKEN
 if(!(document.getElementById("home")) && !(document.getElementById("login")) &&
     !(document.getElementById("privacy-policies")) && !(document.getElementById("sign-up")) &&
-    !(document.getElementById("success"))
+    !(document.getElementById("success")) && localStorage.access == null
 ){
-    fetch(endpoint.TOKEN_REFRESH, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            refresh: localStorage.refresh,
-        })
-    }).then(response => response.json()).then(json => {
-        if(json.access){
-            localStorage.access = json.access
-            localStorage.refresh = json.refresh
-        }else{
-            localStorage.removeItem("access")
-            localStorage.removeItem("refresh")
-            window.location = "login.html"
-        }
-    })
-}
-
-// API - SIGN UP
-if(document.getElementById("sign-up-form")){
-    [...document.getElementsByClassName("password")].map(el => {
-        el.addEventListener("input", (evt) => new User().validatePasswordAndShowRules("rules", evt.target.value))
-    })
-    document.getElementById("sign-up-form").addEventListener("submit", (evt) => {
-        evt.preventDefault()
-        if(new User().validatePasswordAndShowRules("validate") == true){
-            new User(evt.target.elements[0].value, evt.target.elements[1].value, evt.target.elements[2].value).signUp()
-        }
-    })
+    window.location = "login.html"
 }
 
 // API - SIGN IN
@@ -127,11 +94,19 @@ if(document.getElementById("login-form")){
     })
 }
 
-// API - LOGOUT
-if(document.getElementById("logout")){
-    const logout = document.getElementById("btn-logout")
-    logout.addEventListener("click", () => {
-        new User().logout()
+// API - SIGN UP
+if(document.getElementById("sign-up-form")){
+    [...document.getElementsByClassName("password")].map(el => {
+        el.addEventListener("input", (evt) => new User().validatePasswordAndShowRules("rules", evt.target.value))
+    })
+    document.getElementById("sign-up-form").addEventListener("submit", (evt) => {
+        evt.preventDefault()
+        const USER = new User()
+        USER.username = evt.target.elements[0].value
+        USER.email = evt.target.elements[1].value
+        USER.password = evt.target.elements[2].value
+        USER.password2 = evt.target.elements[3].value
+        USER.signUp()
     })
 }
 
@@ -143,7 +118,14 @@ if(document.getElementById("btn-delete-account")){
     })
 }
 
-// API - UPDATE PASSWORD
+// API - LOGOUT
+if(document.getElementById("logout")){
+    document.getElementById("btn-logout").addEventListener("click", (evt) => {
+        new User().logout()
+    })
+}
+
+// API - Password Change
 if(document.getElementById("update-password")){
     [...document.getElementsByClassName("password")].map(el => {
         el.addEventListener("input", (evt) => new User().validatePasswordAndShowRules("rules", evt.target.value))
@@ -152,7 +134,8 @@ if(document.getElementById("update-password")){
         evt.preventDefault()
         const USER = new User()
         USER.password = evt.target.elements[0].value
-        USER.changePassword()
+        USER.password2 = evt.target.elements[1].value
+        USER.passwordChange()
     })
 }
 
@@ -161,13 +144,20 @@ if(document.getElementById("annotations") && !(document.getElementById("results"
     fetch(endpoint.ANNOTATIONS, {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+localStorage.access
-        }
-    }).then(response => response.json()).then(json => {
-        if(json.length > 0){
-            for(var data of json){
-                new Annotation(data.title, data.summary, data.text).show(data.id)
-            }
+            'Authorization': `Token ${localStorage.access}`
+        },
+    }).then(response => {
+        if(response.ok == true){
+            response.json().then(json => {
+                if(json.length > 0){
+                    for(var data of json){
+                        new Annotation(data.title, data.summary, data.text).show(data.id)
+                    }
+                }else{
+                    document.getElementById("annotations").remove()
+                    document.getElementById("no-annotations").style.display = "block"
+                }
+            })
         }else{
             document.getElementById("annotations").remove()
             document.getElementById("no-annotations").style.display = "block"

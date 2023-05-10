@@ -353,17 +353,27 @@ footer .copyright {
   justify-content: center;
   margin-bottom: 20px;
 }
-.login-contents .login-content .login-social .google, .login-contents .login-content .login-social .linkedin, .login-contents .sign-up-content .login-social .google, .login-contents .sign-up-content .login-social .linkedin, .sign-up-contents .login-content .login-social .google, .sign-up-contents .login-content .login-social .linkedin, .sign-up-contents .sign-up-content .login-social .google, .sign-up-contents .sign-up-content .login-social .linkedin {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 25px;
-  background-color: #0077B6;
+.login-contents .login-content .login-social #buttonDiv, .login-contents .sign-up-content .login-social #buttonDiv, .sign-up-contents .login-content .login-social #buttonDiv, .sign-up-contents .sign-up-content .login-social #buttonDiv {
+  transform: scale(1.2);
+  margin: 5px 20px 0 0;
 }
-.login-contents .login-content .login-social .google:hover, .login-contents .login-content .login-social .linkedin:hover, .login-contents .sign-up-content .login-social .google:hover, .login-contents .sign-up-content .login-social .linkedin:hover, .sign-up-contents .login-content .login-social .google:hover, .sign-up-contents .login-content .login-social .linkedin:hover, .sign-up-contents .sign-up-content .login-social .google:hover, .sign-up-contents .sign-up-content .login-social .linkedin:hover {
+.login-contents .login-content .login-social #buttonDiv:hover, .login-contents .sign-up-content .login-social #buttonDiv:hover, .sign-up-contents .login-content .login-social #buttonDiv:hover, .sign-up-contents .sign-up-content .login-social #buttonDiv:hover {
+  transform: rotate(45deg) scale(1.2);
+  transition: 0.8s;
+}
+.login-contents .login-content .login-social .facebook, .login-contents .sign-up-content .login-social .facebook, .sign-up-contents .login-content .login-social .facebook, .sign-up-contents .sign-up-content .login-social .facebook {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50%;
+  display: flex !important;
+  justify-content: center;
+  align-items: center !important;
+  font-size: 25px;
+  background-color: #fff;
+  color: #0077B6;
+  border: 0.5px solid grey;
+}
+.login-contents .login-content .login-social .facebook:hover, .login-contents .sign-up-content .login-social .facebook:hover, .sign-up-contents .login-content .login-social .facebook:hover, .sign-up-contents .sign-up-content .login-social .facebook:hover {
   transform: rotate(30deg);
   transition: 0.8s;
 }

@@ -18,7 +18,89 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
         <link rel="shortcut icon" href="https://img.icons8.com/clouds/150/000000/folder-invoices.png" type="image/x-icon">
         <title>LEMBRAR-ME - Cadastrar</title>
+		<script>
+			function fb(){
+				FB.init({
+					appId      : '170621641810783',
+					cookie     : true,                     // Enable cookies to allow the server to access the session.
+					xfbml      : true,                     // Parse social plugins on this webpage.
+					version    : 'v16.0',           // Use this Graph API version for this call.
+				});
+			};
+
+            function fb_login(response) {
+                fb()
+                FB.login(function(response) {
+                    if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+                        fetch("https://lembrar-me-api.up.railway.app/auth/facebook/", {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                access_token: response.authResponse.accessToken,
+                            })
+                        }).then(response => response.json()).then(json => {
+                            if(json.key){
+                                localStorage.access = json.key
+                                window.location = "annotations.html"
+                            }else{
+                                alert("Erro ao realizar login!")
+                            }
+                        })
+                    }else{
+                        alert("Erro ao realizar login!")
+                    }
+                }, {scope: 'email', display: 'popup'});
+            }
+
+        <!-- google -->
+        // Função chamada após o login
+        function handleCredentialResponse(response) {
+            // Verifica se o usuário está autenticado
+            if(response.credential){
+                fetch("https://lembrar-me-api.up.railway.app/auth/google/", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        access_token: response.credential,
+                        id_token: response.clientId,
+                    })
+                }).then(response => response.json()).then(json => {
+                    if(json.key){
+                        localStorage.access = json.key
+                        window.location = "annotations.html"
+                    }else{
+                        alert(Object.values(json))
+                    }
+                })
+            }else{
+                alert("Não foi possível logar")
+            }
+        }
+
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "907798282358-198q8dhj687peof3pjgt73ju6s9kkrl4.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+
+            google.accounts.id.renderButton(
+                document.getElementById("buttonDiv"),
+                    {
+                        type: "icon",
+                        shape: "circle",
+                        size: "large",
+                    }
+            )
+
+            google.accounts.id.prompt(); // also display the One Tap dialog
+        }
+		</script>
     </head>
+
     <body class="" id="sign-up">
         <main class="sign-up">
             <!-- Cookies Alert -->
@@ -37,10 +119,10 @@
                     </div>
                     <div class="sign-up-content col-12 col-md-6 col-lg-7">
                         <h1>Cadastrar</h1>
-                        <!-- <div class="login-social"> -->
-                            <!-- <div class="google"><i class="bi bi-google"></i></div> -->
-                            <!-- <div class="linkedin"><i class="bi bi-linkedin"></i></div> -->
-                        <!-- </div> -->
+                        <div class="login-social">
+                            <div id="buttonDiv"></div>
+                            <a onclick="fb_login()" class="facebook"><i class="bi bi-facebook"></i></a>
+                        </div>
                         <form action="" id="sign-up-form">
                             <div class="alert alert-danger"></div>
                             <input type="text" placeholder="Nome" required="required" class="form-control">
@@ -62,6 +144,9 @@
         </main>
 
         <script src="js/scripts.js" type="module"></script>
+		<!-- Load the JS SDK asynchronously -->
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v13.0" nonce="dG3mVc58"></script>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
     </body>
 </html>
 
