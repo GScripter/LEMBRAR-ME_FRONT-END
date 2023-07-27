@@ -1,13 +1,13 @@
-<img src="https://img.shields.io/github/license/GabrielSantos198/LEMBRAR-ME_FRONT-END?color=blue&style=for-the-badge" alt=""> <img src="https://img.shields.io/github/repo-size/GabrielSantos198/LEMBRAR-ME_FRONT-END?style=for-the-badge" alt=""> <img src="https://img.shields.io/github/languages/count/GabrielSantos198/LEMBRAR-ME_FRONT-END?style=for-the-badge" alt=""> <img src="https://img.shields.io/github/issues/GabrielSantos198/LEMBRAR-ME_FRONT-END?color=blue&style=for-the-badge" alt=""> <img src="https://img.shields.io/github/issues-pr/GabrielSantos198/LEMBRAR-ME_FRONT-END?color=blue&style=for-the-badge" alt=""> <img src="https://img.shields.io/github/stars/GabrielSantos198/LEMBRAR-ME_FRONT-END?color=blue&style=for-the-badge" alt="">
+<img src="https://img.shields.io/github/license/GScripter/lembrar-me_website?color=blue&style=for-the-badge" alt=""> <img src="https://img.shields.io/github/repo-size/GScripter/lembrar-me_website?style=for-the-badge" alt=""> <img src="https://img.shields.io/github/languages/count/GScripter/lembrar-me_website?style=for-the-badge" alt=""> <img src="https://img.shields.io/github/issues/GScripter/lembrar-me_website?color=blue&style=for-the-badge" alt=""> <img src="https://img.shields.io/github/issues-pr/GScripter/lembrar-me_website?color=blue&style=for-the-badge" alt=""> <img src="https://img.shields.io/github/stars/GScripter/lembrar-me_website?color=blue&style=for-the-badge" alt="">
 
 <p align="center">
-<img src="https://gabrielsantos198.github.io/LEMBRAR-ME_FRONT-END/imgs/computer.jpg" width=300px alt="">
+<img src="https://GScripter.github.io/lembrar-me_website/imgs/computer.jpg" width=300px alt="">
 </p>
 
 <h1 align="center"> ⭐ Front-End consuming API data</h1>
 
 <p align="center">
-  ⭐ This is the README file for the LEMBRAR-ME Front-End. It provides information about website technologies, how to use it, and how to contribute to the project.
+  ⭐ This is the README file for the LEMBRAR-ME Website. It provides information about website technologies, how to use it, and how to contribute to the project.
 </p>
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)](#table-of-contents)
@@ -57,9 +57,9 @@
 <a id="installation"></a>
 ## Installation
 <h4>Step-1</h4> Clone the repository to your computer:
-<code>https://github.com/GabrielSantos198/LEMBRAR-ME_FRONT-END.git</code>
+<code>https://GScripter.github.io/lembrar-me_website.git</code>
 <h4>Step-2</h4> Navigate to the project folder:
-<code>cd LEMBRAR-ME_FRONT-END</code>
+<code>cd lembrar-me_website</code>
 <h4>Step-3</h4> Open the index.html file in a browser of your choice and You're all set! Now the project is running in your browser. 
 
 <a id="contribute"></a>
